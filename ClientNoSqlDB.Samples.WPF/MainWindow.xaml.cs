@@ -23,6 +23,34 @@ namespace ClientNoSqlDB.Samples.WPF
         public MainWindow()
         {
             InitializeComponent();
+            this.Loaded += MainWindow_Loaded;
+        }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            List<Person> list;
+            using (var db = new ClientNoSqlDB.DbInstance("test"))
+            {
+                db.Map<Person>().Automap(i => i.Id);
+                db.Initialize();
+                list = db.LoadAll<Person>().ToList();
+                if (list != null &&  !list.Any())
+                {
+                    db.Save(new Person() { FirstName = "Ken", Id = 1, LastName = "Tucker" },
+                    new Person() { FirstName = "Tony", Id = 2, LastName = "Stark" },
+                    new Person() { FirstName = "John", Id = 3, LastName = "Papa" });
+                }
+            }
+        }
+
+        public class Person
+        {
+            public int Id { get; set; }
+
+            public string FirstName { get; set; }
+
+            public string LastName { get; set; }
+
         }
     }
 }
