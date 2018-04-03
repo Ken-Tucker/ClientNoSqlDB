@@ -18,3 +18,9 @@ This NoSql database is based on Lex.DB
 * Issue a pull request that fixes a bug or adds a new feature.
 
 If your pull request is accepted I will add you on as a contributer
+
+
+
+# We now have a Slack channel. 
+
+Join me at clientnosql.slack.com if you want to talk about the NoSql database
