@@ -3,10 +3,8 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Diagnostics;
-
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ClientNoSqlDB;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ClientNoSql.Tests
 {

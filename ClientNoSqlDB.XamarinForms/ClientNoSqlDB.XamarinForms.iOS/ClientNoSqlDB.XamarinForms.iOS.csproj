@@ -46,7 +46,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <MtouchArch>ARM64</MtouchArch>
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
@@ -135,7 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ClientNoSqlDB.XamarinForms\ClientNoSqlDB.XamarinForms.csproj">
-      <Project>{2af66e04-4234-4460-9b79-abac6c6e5699}</Project>
+      <Project>{56829385-2810-4E35-8683-6C42395450DC}</Project>
       <Name>ClientNoSqlDB.XamarinForms</Name>
     </ProjectReference>
   </ItemGroup>

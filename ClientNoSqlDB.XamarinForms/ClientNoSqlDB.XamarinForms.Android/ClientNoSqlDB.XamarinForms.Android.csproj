@@ -16,7 +16,6 @@
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
-    <AndroidUseLatestPlatformSdk>true</AndroidUseLatestPlatformSdk>
     <TargetFrameworkVersion>v7.1</TargetFrameworkVersion>
     <AndroidStoreUncompressedFileExtensions />
     <MandroidI18n />
@@ -121,7 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ClientNoSqlDB.XamarinForms\ClientNoSqlDB.XamarinForms.csproj">
-      <Project>{2af66e04-4234-4460-9b79-abac6c6e5699}</Project>
+      <Project>{56829385-2810-4E35-8683-6C42395450DC}</Project>
       <Name>ClientNoSqlDB.XamarinForms</Name>
     </ProjectReference>
   </ItemGroup>
