@@ -1,13 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UIKit;
 
-namespace ClientNoSqlDB.Samples.NetCore
+namespace ClientNoSqlDB.Samples.Ios
 {
-    class Program
+    public partial class ViewController : UIViewController
     {
-        static void Main(string[] args)
+        protected ViewController(IntPtr handle) : base(handle)
         {
+            // Note: this .ctor should not contain any initialization logic.
+        }
+
+        public override void ViewDidLoad()
+        {
+            table = new UITableView(View.Bounds); // defaults to Plain style
             List<Person> list;
             using (var db = new ClientNoSqlDB.DbInstance("testing"))
             {
@@ -21,20 +28,28 @@ namespace ClientNoSqlDB.Samples.NetCore
                     new Person() { FirstName = "John", Id = 3, LastName = "Papa" },
                     new Person() { FirstName = "Delete", Id = 4, LastName = "Me" });
                 }
+
                 var item = db.LoadByKey<Person>(4);
                 if (item != null)
                 {
                     db.Delete<Person>(item);
                 }
                 list = db.LoadAll<Person>().ToList();
-
-                foreach(var p in list)
-                {
-                    Console.WriteLine($"{p.FirstName} {p.LastName}");
-                }
             }
+            List<string> names = new List<string>();
+            foreach (var p in list)
+            {
+                names.Add($"{p.FirstName} {p.LastName}");
+            }
+            string[] tableItems = names.ToArray();
+            table.Source = new TableSource(tableItems);
+            Add(table);
+        }
 
-
+        public override void DidReceiveMemoryWarning()
+        {
+            base.DidReceiveMemoryWarning();
+            // Release any cached data, images, etc that aren't in use.
         }
     }
 
@@ -48,4 +63,3 @@ namespace ClientNoSqlDB.Samples.NetCore
 
     }
 }
-

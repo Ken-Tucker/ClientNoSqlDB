@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using AppKit;
 
-namespace ClientNoSqlDB.Samples.NetCore
+namespace ClientNoSqlDB.Samples.MacOs
 {
-    class Program
+    static class MainClass
     {
         static void Main(string[] args)
         {
+            NSApplication.Init();
             List<Person> list;
             using (var db = new ClientNoSqlDB.DbInstance("testing"))
             {
@@ -21,20 +22,21 @@ namespace ClientNoSqlDB.Samples.NetCore
                     new Person() { FirstName = "John", Id = 3, LastName = "Papa" },
                     new Person() { FirstName = "Delete", Id = 4, LastName = "Me" });
                 }
+
                 var item = db.LoadByKey<Person>(4);
                 if (item != null)
                 {
                     db.Delete<Person>(item);
                 }
                 list = db.LoadAll<Person>().ToList();
-
-                foreach(var p in list)
-                {
-                    Console.WriteLine($"{p.FirstName} {p.LastName}");
-                }
+            }
+            List<string> names = new List<string>();
+            foreach (var p in list)
+            {
+                names.Add($"{p.FirstName} {p.LastName}");
             }
 
-
+            NSApplication.Main(args);
         }
     }
 
@@ -48,4 +50,3 @@ namespace ClientNoSqlDB.Samples.NetCore
 
     }
 }
-
