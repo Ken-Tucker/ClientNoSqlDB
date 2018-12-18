@@ -95,6 +95,10 @@
       <Project>{186093DA-C677-4A7E-AB4E-0E3C80DA2AA2}</Project>
       <Name>ClientNoSQLDB.Samples.XamarinForms</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\ClientNoSqlDB\ClientNoSqlDB.csproj">
+      <Project>{FDAE74D5-A07B-4ADD-B6B8-89B663F0DFE7}</Project>
+      <Name>ClientNoSqlDB</Name>
+    </ProjectReference>
   </ItemGroup>
  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
