@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Diagnostics;
 using ClientNoSqlDB;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace ClientNoSql.Tests
 {
@@ -16,7 +16,7 @@ namespace ClientNoSql.Tests
         public void TestComplete() { }
     }
 
-    [TestClass]
+    [TestFixture]
   public class DbTests : WorkItemTest
   {
 
@@ -26,13 +26,13 @@ namespace ClientNoSql.Tests
 
     DbInstance Prepare()
     {
-      var db = new DbInstance("MyDatabase");
+      db = new DbInstance("MyDatabase");
       db.Map<MyData>().Automap(i => i.Id, true);
       db.Initialize();
       return db;
     }
 
-    [TestMethod]
+    [Test]
     public void TestPKTypes()
     {
       TestPKKey(i => i.KeyBool, (o, v) => o.KeyBool = v, true);
@@ -52,7 +52,7 @@ namespace ClientNoSql.Tests
 
     public void TestPKKey<T>(Expression<Func<MyDataKeys, T>> pkGetter, Action<MyDataKeys, T> pkSetter, T key)
     {
-      var db = new DbInstance("DbKeys");
+      db = new DbInstance("DbKeys");
       db.Map<MyDataKeys>().Key(pkGetter);
       db.Initialize();
       var getter = pkGetter.Compile();
@@ -68,7 +68,7 @@ namespace ClientNoSql.Tests
     }
 
 
-    [TestInitialize]
+   [OneTimeSetUpAttribute]
     public void PurgeDb()
     {
       using (var i = Prepare())
@@ -78,7 +78,7 @@ namespace ClientNoSql.Tests
       table = db.Table<MyData>();
     }
 
-    [TestCleanup]
+    [OneTimeTearDownAttribute]
     public void CleanUp()
     {
       Debugger.Break();
@@ -86,17 +86,17 @@ namespace ClientNoSql.Tests
       db.Dispose();
     }
 
-    [TestMethod]
+    [Test]
     public void OpenDb()
     {
-      var db = new DbInstance("My Database");
+      db = new DbInstance("My Database");
       db.Initialize();
     }
 
-    [TestMethod]
+    [Test]
     public void OpenDbComplexPath()
     {
-      var db = new DbInstance(@"My Database\My Schema");
+      db = new DbInstance(@"My Database\My Schema");
       db.Initialize();
     }
 
@@ -105,7 +105,7 @@ namespace ClientNoSql.Tests
     {
       try
       {
-        var db = new DbInstance(@"d:\test.db");
+        db = new DbInstance(@"d:\test.db");
         db.Initialize();
       }
 
@@ -115,13 +115,13 @@ namespace ClientNoSql.Tests
     }
 
 
-    [TestMethod]
+    [Test]
     //    [ExpectedException(typeof(InvalidOperationException))]
     public void DoubleOpenDbComplexPath()
     {
       try
       {
-        var db = new DbInstance(@"My Database\My Schema");
+        db = new DbInstance(@"My Database\My Schema");
         db.Initialize();
         db.Initialize();
 
@@ -132,13 +132,13 @@ namespace ClientNoSql.Tests
       }
     }
 
-    [TestMethod]
+    [Test]
     //    [ExpectedException(typeof(InvalidOperationException))]
     public void MapDb()
     {
       try
       {
-        var db = new DbInstance(@"My Database\My Schema");
+        db = new DbInstance(@"My Database\My Schema");
         db.Map<MyData>();
 
         db.Initialize();
@@ -151,13 +151,13 @@ namespace ClientNoSql.Tests
       }
     }
 
-    [TestMethod]
+    [Test]
     //    [ExpectedException(typeof(InvalidOperationException))]
     public void MapDbWrong()
     {
       try
       {
-        var db = new DbInstance(@"My Database\My Schema");
+        db = new DbInstance(@"My Database\My Schema");
 
         db.Initialize();
 
@@ -170,10 +170,10 @@ namespace ClientNoSql.Tests
       }
     }
 
-    [TestMethod]
+    [Test]
     public void Indexing()
     {
-      var db = new DbInstance(@"My Database\Indexing");
+      db = new DbInstance(@"My Database\Indexing");
 
       db.Map<MyData>().Automap(i => i.Id, true)
         .WithIndex("LastName", i => i.Name, StringComparer.CurrentCulture)
@@ -201,10 +201,10 @@ namespace ClientNoSql.Tests
       Assert.AreEqual(list2count, 200);
     }
 
-    [TestMethod]
+    [Test]
     public void IndexingDetails()
     {
-      var db = new DbInstance(@"My Database\Indexing2");
+      db = new DbInstance(@"My Database\Indexing2");
 
       db.Map<MyData>().Automap(i => i.Id, true).WithIndex("Test", i => i.IntField);
       db.Initialize();
@@ -267,14 +267,14 @@ namespace ClientNoSql.Tests
       Assert.IsTrue(a.OrderBy(i => i.Id).Select(i => i.Id).SequenceEqual(b.OrderBy(i => i.Id).Select(i => i.Id)));
     }
 
-    [TestMethod]
+    [Test]
     public void LoadData()
     {
       var table = db.Table<MyData>();
       var items = table.LoadAll();
     }
 
-    [TestMethod]
+    [Test]
     public void SaveData()
     {
       var swatch = DateTime.Now;
@@ -293,7 +293,7 @@ namespace ClientNoSql.Tests
       });
     }
 
-    [TestMethod]
+    [Test]
     public void SaveDataBulk()
     {
       db.Purge();
@@ -317,7 +317,7 @@ namespace ClientNoSql.Tests
       return cnt;
     }
 
-    [TestMethod]
+    [Test]
     public void LoadDataBulk()
     {
       db.BulkWrite(() =>
@@ -328,13 +328,13 @@ namespace ClientNoSql.Tests
       });
     }
 
-    [TestMethod]
+    [Test]
     public void Compact()
     {
       table.Compact();
     }
 
-    [TestMethod]
+    [Test]
     public void CheckInfo()
     {
       var info1 = table.GetInfo();
@@ -342,7 +342,7 @@ namespace ClientNoSql.Tests
     }
 
 
-    [TestMethod]
+    [Test]
     public void RountripNulls()
     {
       var obj = new MyData();
@@ -371,7 +371,7 @@ namespace ClientNoSql.Tests
 
 #region Bool Rountrip Tests
 
-    [TestMethod]
+    [Test]
     public void RountripBool1()
     {
       var obj = new MyData { BoolField = true, BoolNField = false };
@@ -384,7 +384,7 @@ namespace ClientNoSql.Tests
       Assert.AreEqual(obj.BoolNField, newObj.BoolNField);
     }
 
-    [TestMethod]
+    [Test]
     public void RountripBool2()
     {
       var obj = new MyData { BoolField = false, BoolNField = true };
@@ -401,7 +401,7 @@ namespace ClientNoSql.Tests
 
 #region Int Rountrip Tests
 
-    [TestMethod]
+    [Test]
     public void RountripInt1()
     {
       var obj = new MyData { IntField = int.MaxValue, IntNField = int.MinValue };
@@ -414,7 +414,7 @@ namespace ClientNoSql.Tests
       Assert.AreEqual(obj.IntNField, newObj.IntNField);
     }
 
-    [TestMethod]
+    [Test]
     public void RountripInt2()
     {
       var obj = new MyData { IntField = int.MinValue, IntNField = int.MaxValue };
@@ -431,7 +431,7 @@ namespace ClientNoSql.Tests
 
 #region Long Rountrip Tests
 
-    [TestMethod]
+    [Test]
     public void RountripLong1()
     {
       var obj = new MyData { LongField = long.MaxValue, LongNField = long.MinValue };
@@ -444,7 +444,7 @@ namespace ClientNoSql.Tests
       Assert.AreEqual(obj.LongNField, newObj.LongNField);
     }
 
-    [TestMethod]
+    [Test]
     public void RountripLong2()
     {
       var obj = new MyData { LongField = long.MinValue, LongNField = long.MaxValue };
@@ -461,7 +461,7 @@ namespace ClientNoSql.Tests
 
 #region Float Rountrip Tests
 
-    [TestMethod]
+    [Test]
     public void RountripFloat1()
     {
       var obj = new MyData { FloatField = (float)Math.PI, FloatNField = (float)-Math.PI };
@@ -478,7 +478,7 @@ namespace ClientNoSql.Tests
 
 #region Double Rountrip Tests
 
-    [TestMethod]
+    [Test]
     public void RountripDouble1()
     {
       var obj = new MyData { DoubleField = Math.PI, DoubleNField = -Math.PI };
@@ -495,7 +495,7 @@ namespace ClientNoSql.Tests
 
 #region Decimal Rountrip Tests
 
-    [TestMethod]
+    [Test]
     public void RountripDecimal1()
     {
       var obj = new MyData { DecimalField = (decimal)Math.PI, DecimalNField = (decimal)-Math.PI };
@@ -512,7 +512,7 @@ namespace ClientNoSql.Tests
 
 #region String Rountrip Tests
 
-    [TestMethod]
+    [Test]
     public void RountripString1()
     {
       var obj = new MyData { Name = "Test ABC" };
@@ -528,7 +528,7 @@ namespace ClientNoSql.Tests
 
 #region Guid Rountrip Tests
 
-    [TestMethod]
+    [Test]
     public void RountripGuid1()
     {
       var obj = new MyData { GuidField = Guid.NewGuid(), GuidNField = Guid.NewGuid() };
@@ -545,7 +545,7 @@ namespace ClientNoSql.Tests
 
 #region Enum Rountrip Tests
 
-    [TestMethod]
+    [Test]
     public void RountripEnum1()
     {
       var obj = new MyData { EnumField = TestEnum.EnumValue1, EnumNField = TestEnum.EnumValue2 };
@@ -562,7 +562,7 @@ namespace ClientNoSql.Tests
 
 #region TimeSpan Rountrip Tests
 
-    [TestMethod]
+    [Test]
     public void RountripTimeSpan1()
     {
       var obj = new MyData { TimeSpanField = new TimeSpan(1, 2, 3), TimeSpanNField = new TimeSpan(2, 3, 4) };
@@ -579,7 +579,7 @@ namespace ClientNoSql.Tests
 
 #region DateTime Rountrip Tests
 
-    [TestMethod]
+    [Test]
     public void RountripDateTime1()
     {
       var obj = new MyData { DateTimeField = new DateTime(1, 2, 3, 4, 5, 6), DateTimeNField = new DateTime(2, 3, 4, 5, 6, 7) };
@@ -596,7 +596,7 @@ namespace ClientNoSql.Tests
 
 #region DateTimeOffset Rountrip Tests
 
-    [TestMethod]
+    [Test]
     public void RountripDateTimeOffset1()
     {
       var obj = new MyData { DateTimeOffsetField = new DateTimeOffset(1, 2, 3, 4, 5, 6, TimeSpan.FromMinutes(60)), DateTimeOffsetNField = new DateTimeOffset(2, 3, 4, 5, 6, 7, TimeSpan.FromMinutes(120)) };
@@ -613,7 +613,7 @@ namespace ClientNoSql.Tests
 
 #region Lists Rountrip Tests
 
-    [TestMethod]
+    [Test]
     public void RountripLists1()
     {
       var obj = new MyData
@@ -678,7 +678,7 @@ namespace ClientNoSql.Tests
 
 #region github issue #10
 
-    [TestMethod]
+    [Test]
     public void TestLoadByKeyObj()
     {
       var obj = new MyData { GuidField = Guid.NewGuid() };
@@ -690,7 +690,7 @@ namespace ClientNoSql.Tests
       Assert.AreEqual(obj.GuidField, newObj.GuidField);
     }
 
-    [TestMethod]
+    [Test]
     public void TestDeleteByKeyObj()
     {
       var obj = new MyData { GuidField = Guid.NewGuid() };

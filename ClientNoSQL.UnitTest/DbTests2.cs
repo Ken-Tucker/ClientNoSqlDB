@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using System.Threading.Tasks;
 using ClientNoSqlDB;
 using ClientNoSqlDB.Serialization;
+using NUnit.Framework;
 
 namespace ClientNoSql.Tests
 {
-  [TestClass]
+  [TestFixture]
   public class DbTests2 : WorkItemTest
   {
 
@@ -21,13 +18,13 @@ namespace ClientNoSql.Tests
 
     DbInstance Prepare()
     {
-      var db = new DbInstance("MyDatabase2");
+      db = new DbInstance("MyDatabase2");
       db.Map<IData, InterfaceBasedData>().Automap(i => i.Id, true);
       db.Initialize();
       return db;
     }
 
-    [TestInitialize]
+    [OneTimeSetUpAttribute]
     public void PurgeDb()
     {
       try
@@ -43,17 +40,17 @@ namespace ClientNoSql.Tests
       table = db.Table<IData>();
     }
 
-    [TestCleanup]
+    [OneTimeTearDownAttribute]
     public void CleanUp()
     {
       db.Purge();
       db.Dispose();
     }
 
-    [TestMethod]
+    [Test]
     public void Indexing2()
     {
-      var db = new DbInstance(@"MyDatabase2\Indexing");
+      db = new DbInstance(@"MyDatabase2\Indexing");
 
       db.Map<IData, InterfaceBasedData>().Automap(i => i.Id, true)
         .WithIndex("LastName", i => i.Name, StringComparer.CurrentCulture)
@@ -97,14 +94,14 @@ namespace ClientNoSql.Tests
       Assert.AreEqual(300, list8count);
     }
 
-    [TestMethod]
+    [Test]
     public void LoadData2()
     {
       var table = db.Table<IData>();
       var items = table.LoadAll();
     }
 
-    [TestMethod]
+    [Test]
     public void SaveData2()
     {
       var swatch = DateTime.Now;

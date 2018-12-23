@@ -6,7 +6,7 @@
 //
 using Foundation;
 
-namespace ClientNoSqlDB.Samples.MacOs
+namespace ClientNoSqlDB.Samples.XamarinForms.Mac
 {
     [Register("ViewController")]
     partial class ViewController

@@ -1,13 +1,11 @@
 ﻿using System;
-
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ClientNoSqlDB.Serialization;
 using ClientNoSqlDB;
+using NUnit.Framework;
 
 namespace ClientNoSql.Tests
 {
-    [TestClass]
+    [TestFixture]
 
   public class DbTests3
 
@@ -19,13 +17,13 @@ namespace ClientNoSql.Tests
 
     DbInstance Prepare()
     {
-      var db = new DbInstance("MyDatabase3");
+      db = new DbInstance("MyDatabase3");
       db.Map<AData, PrototypeBasedData>().Automap(i => i.Id, true);
       db.Initialize();
       return db;
     }
 
-    [TestInitialize]
+    [OneTimeSetUpAttribute]
     public void PurgeDb()
     {
       using (var i = Prepare())
@@ -35,17 +33,17 @@ namespace ClientNoSql.Tests
       table = db.Table<AData>();
     }
 
-    [TestCleanup]
+    [OneTimeTearDownAttribute]
     public void CleanUp()
     {
       db.Purge();
       db.Dispose();
     }
 
-    [TestMethod]
+    [Test]
     public void Indexing3()
     {
-      var db = new DbInstance(@"MyDatabase3\Indexing");
+      db = new DbInstance(@"MyDatabase3\Indexing");
 
       db.Map<AData, PrototypeBasedData>().Automap(i => i.Id, true)
         .WithIndex("LastName", i => i.Name, StringComparer.CurrentCulture)
@@ -73,14 +71,14 @@ namespace ClientNoSql.Tests
       Assert.AreEqual(list2count, 200);
     }
 
-    [TestMethod]
+    [Test]
     public void LoadData3()
     {
       var table = db.Table<AData>();
       var items = table.LoadAll();
     }
 
-    [TestMethod]
+    [Test]
     public void SaveData3()
     {
       var swatch = DateTime.Now;
@@ -105,10 +103,10 @@ namespace ClientNoSql.Tests
       public string Forename, Surname;
     }
 
-    [TestMethod]
+    [Test]
     public void TestGordon()
     {
-      var db = new DbInstance("gordon.db");
+      db = new DbInstance("gordon.db");
       db.Map<Person>().Automap(i => i.PersonID, true).WithIndex("Surname", i => i.Surname);
       db.Initialize();
 

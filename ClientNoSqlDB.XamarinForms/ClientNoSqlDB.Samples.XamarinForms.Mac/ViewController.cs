@@ -3,7 +3,7 @@
 using AppKit;
 using Foundation;
 
-namespace ClientNoSqlDB.Samples.MacOs
+namespace ClientNoSqlDB.Samples.XamarinForms.Mac
 {
     public partial class ViewController : NSViewController
     {

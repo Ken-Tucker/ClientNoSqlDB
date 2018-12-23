@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleName</key>
-	<string>ClientNoSqlDB.Samples.MacOs</string>
+	<string>ClientNoSqlDB.Samples.XamarinForms.Mac</string>
 	<key>CFBundleIdentifier</key>
-	<string>ClientNoSqlMacSample.kentuckerapps.com.ClientNoSqlDB-Samples-MacOs</string>
+	<string>ClientNoSqlMacSample.kentuckerapps.com.ClientNoSqlDB-Samples-XamarinForms-Mac</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
