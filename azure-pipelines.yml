@@ -3,6 +3,9 @@
 # Add steps that publish symbols, save build artifacts, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/apps/windows/dot-net
 
+trigger:
+- master
+
 pool:
   vmImage: 'VS2017-Win2016'
 
@@ -11,12 +14,19 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
+  
 steps:
 - task: NuGetToolInstaller@0
+  displayName: 'Use NuGet 4.4.1'
+  inputs:
+    versionSpec: 4.4.1
+
 
 - task: NuGetCommand@2
+  displayName: 'NuGet restore'
   inputs:
     restoreSolution: '$(solution)'
+
 
 - task: VSBuild@1
   inputs:
@@ -25,7 +35,7 @@ steps:
     configuration: '$(buildConfiguration)'
 
 - task: VSTest@2
-  inputs:
+  inputs: 
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
