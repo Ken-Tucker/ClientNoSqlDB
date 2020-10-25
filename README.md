@@ -21,6 +21,35 @@ If your pull request is accepted I will add you on as a contributer
 
 
 
-# We now have a Slack channel. 
+# To use this library in your apps
 
-Join me at clientnosql.slack.com if you want to talk about the NoSql database
+Add the ClientNoSql nuget package to your app
+
+
+To start off create an instance of the client no sql
+ 
+     var db = new ClientNoSqlDB.DbInstance("testing")
+
+Map the classes in your DB and initialize it.  Make sure you map your primary key.
+
+                db.Map<Person>().Automap(i => i.Id);
+                db.Initialize();
+                
+You can save items in the db like this
+
+                   db.Save(new Person() { FirstName = "Ken", Id = 1, LastName = "Tucker" },
+                    new Person() { FirstName = "Tony", Id = 2, LastName = "Stark" },
+                    new Person() { FirstName = "John", Id = 3, LastName = "Papa" },
+                    new Person() { FirstName = "Delete", Id = 4, LastName = "Me" });
+
+Load a single item
+
+               var item = db.LoadByKey<Person>(4);
+
+Load all the items
+
+               list = db.LoadAll<Person>().ToList();
+
+Delete an item
+
+                    db.Delete<Person>(item);
