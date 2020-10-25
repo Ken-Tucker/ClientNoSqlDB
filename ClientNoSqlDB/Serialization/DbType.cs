@@ -1,9 +1,8 @@
 ﻿using System;
-using System.IO;
 
 namespace ClientNoSqlDB.Serialization
 {
-  class DbType
+    class DbType
   {
     protected DbType(short id, Type type)
     {

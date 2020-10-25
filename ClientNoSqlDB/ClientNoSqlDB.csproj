@@ -1,10 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackOnBuild>true</PackOnBuild>
     <PackageId>ClientNoSqlDB</PackageId>
-    <PackageVersion>0.5</PackageVersion>
+    <PackageVersion>1.0</PackageVersion>
     <Authors>Ken Tucker</Authors>
     <NeutralLanguage>en-US</NeutralLanguage>
     <Owners>Ken Tucker</Owners>
@@ -13,6 +13,7 @@
     <PackageTags>NoSQL Xamarin .net standard</PackageTags>
     <Title>Client No SQL DB</Title>
     <Description>.net standard version of  Lex.DB</Description>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -24,5 +25,11 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NuGet.Build.Packaging" Version="0.2.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 </Project>
