@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 
 namespace ClientNoSqlDB.Serialization
 {
-  class ListSerializers<T>
+    class ListSerializers<T>
   {
     static readonly Action<DataWriter, T> _serializer = Serializer<T>.Writer;
     static readonly Func<DataReader, T> _deserializer = Serializer<T>.Reader;

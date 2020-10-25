@@ -2,15 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 
 namespace ClientNoSqlDB.Indexing
 {
-  using Serialization;
+    using Serialization;
 
-  interface IDataIndex<T> : IIndex<T> where T : class
+    interface IDataIndex<T> : IIndex<T> where T : class
   {
     void Update(IKeyNode key, T item);
   }

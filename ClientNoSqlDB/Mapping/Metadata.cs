@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,9 +7,9 @@ using System.Reflection;
 
 namespace ClientNoSqlDB.Mapping
 {
-  using Serialization;
+    using Serialization;
 
-  public interface IMetadata
+    public interface IMetadata
   {
     string Name { get; }
     Type Key { get; }

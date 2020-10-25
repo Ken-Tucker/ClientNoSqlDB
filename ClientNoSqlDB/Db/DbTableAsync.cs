@@ -1,20 +1,15 @@
 ﻿
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Threading;
 using System.Threading.Tasks;
-
-using TaskEx = System.Threading.Tasks.Task;
 
 
 namespace ClientNoSqlDB
 {
-  /// <summary>
-  /// Asynchronous extensions for DbTable
-  /// </summary>
-  public static class DbTableAsync
+    /// <summary>
+    /// Asynchronous extensions for DbTable
+    /// </summary>
+    public static class DbTableAsync
   {
     /// <summary>
     /// Asynchronously loads all entities from table 

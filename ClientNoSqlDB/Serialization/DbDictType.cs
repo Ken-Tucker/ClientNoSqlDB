@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 
 namespace ClientNoSqlDB.Serialization
 {
-  internal class DbDictType : DbType
+    internal class DbDictType : DbType
   {
     public DbDictType(DbType key, DbType value)
       : base((short)KnownDbType.Dict, typeof(Dictionary<,>).MakeGenericType(key.Type, value.Type))

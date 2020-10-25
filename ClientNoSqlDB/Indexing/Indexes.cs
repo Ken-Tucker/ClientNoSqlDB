@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
 namespace ClientNoSqlDB
 {
-  using Indexing;
-  using Serialization;
+    using Indexing;
+    using Serialization;
 
-  interface IIndex<T> where T : class
+    interface IIndex<T> where T : class
   {
     DbTable<T> Table { get; }
     MemberInfo[] Keys { get; }

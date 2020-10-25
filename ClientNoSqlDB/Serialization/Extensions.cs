@@ -1,9 +1,8 @@
 ﻿using System;
-using System.IO;
 
 namespace ClientNoSqlDB
 {
-  static partial class Extensions
+    static partial class Extensions
   {
     public static bool Like(this string source, string substring, StringComparison comparison = StringComparison.CurrentCultureIgnoreCase)
     {

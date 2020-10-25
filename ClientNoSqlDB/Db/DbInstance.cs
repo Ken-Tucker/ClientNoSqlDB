@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading;
-using System.Reflection;
 
 namespace ClientNoSqlDB
 {
-  using Mapping;
+    using Mapping;
 
-  /// <summary>
-  /// Database access and management
-  /// </summary>
-  public class DbInstance : IDisposable
+    /// <summary>
+    /// Database access and management
+    /// </summary>
+    public class DbInstance : IDisposable
   {
     static readonly IDbStorage Storage = new DbStorage();
     internal readonly IDbSchemaStorage _schema;
