@@ -1,8 +1,6 @@
-﻿using System.IO;
-
-namespace ClientNoSqlDB.Serialization
+﻿namespace ClientNoSqlDB.Serialization
 {
-  internal class DbListType : DbType
+    internal class DbListType : DbType
   {
     public DbListType(DbType element)
       : base((short)KnownDbType.List, element.Type.MakeArrayType())

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace ClientNoSqlDB.Serialization
 {
-  class DictSerializers<K, V>
+    class DictSerializers<K, V>
   {
 
 

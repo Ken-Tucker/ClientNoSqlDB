@@ -1,129 +1,128 @@
 ﻿using System;
 using ClientNoSqlDB.Serialization;
 using ClientNoSqlDB;
-using NUnit.Framework;
+using Xunit;
 
 namespace ClientNoSql.Tests
 {
-    [TestFixture]
 
-  public class DbTests3
-
-  {
-
-
-    DbInstance db;
-    DbTable<AData> table;
-
-    DbInstance Prepare()
+    public class DbTests3 : IDisposable
     {
-      db = new DbInstance("MyDatabase3");
-      db.Map<AData, PrototypeBasedData>().Automap(i => i.Id, true);
-      db.Initialize();
-      return db;
-    }
 
-    [OneTimeSetUpAttribute]
-    public void PurgeDb()
-    {
-      using (var i = Prepare())
-        i.Purge();
+        public DbTests3()
+        {
+            PurgeDb();
+        }
 
-      db = Prepare();
-      table = db.Table<AData>();
-    }
+        DbInstance db;
+        DbTable<AData> table;
 
-    [OneTimeTearDownAttribute]
-    public void CleanUp()
-    {
-      db.Purge();
-      db.Dispose();
-    }
+        DbInstance Prepare()
+        {
+            db = new DbInstance("MyDatabase3");
+            db.Map<AData, PrototypeBasedData>().Automap(i => i.Id, true);
+            db.Initialize();
+            return db;
+        }
 
-    [Test]
-    public void Indexing3()
-    {
-      db = new DbInstance(@"MyDatabase3\Indexing");
+        public void PurgeDb()
+        {
+            using (var i = Prepare())
+                i.Purge();
 
-      db.Map<AData, PrototypeBasedData>().Automap(i => i.Id, true)
-        .WithIndex("LastName", i => i.Name, StringComparer.CurrentCulture)
-        .WithIndex("LastNameText", i => i.Name, StringComparer.CurrentCultureIgnoreCase);
-      db.Initialize();
+            db = Prepare();
+            table = db.Table<AData>();
+        }
 
-      var table = db.Table<AData>();
-      table.Purge();
+        public void CleanUp()
+        {
+            db.Purge();
+            db.Dispose();
+        }
 
-      db.BulkWrite(() =>
-      {
-        for (var s = 0; s < 100; s++)
-          for (var i = 0; i < 10; i++)
-            table.Save(new PrototypeBasedData { Name = "Test" + i });
+        [Fact]
+        public void Indexing3()
+        {
+            db = new DbInstance(@"MyDatabase3\Indexing");
 
-        for (var s = 0; s < 100; s++)
-          for (var i = 0; i < 10; i++)
-            table.Save(new PrototypeBasedData { Name = "TeST" + i });
-      });
+            db.Map<AData, PrototypeBasedData>().Automap(i => i.Id, true)
+              .WithIndex("LastName", i => i.Name, StringComparer.CurrentCulture)
+              .WithIndex("LastNameText", i => i.Name, StringComparer.CurrentCultureIgnoreCase);
+            db.Initialize();
 
-      var list1count = table.IndexQueryByKey("LastName", "Test5").Count();
-      var list2count = table.IndexQueryByKey("LastNameText", "TEst5").Count();
+            var table = db.Table<AData>();
+            table.Purge();
 
-      Assert.AreEqual(list1count, 100);
-      Assert.AreEqual(list2count, 200);
-    }
+            db.BulkWrite(() =>
+            {
+                for (var s = 0; s < 100; s++)
+                    for (var i = 0; i < 10; i++)
+                        table.Save(new PrototypeBasedData { Name = "Test" + i });
 
-    [Test]
-    public void LoadData3()
-    {
-      var table = db.Table<AData>();
-      var items = table.LoadAll();
-    }
+                for (var s = 0; s < 100; s++)
+                    for (var i = 0; i < 10; i++)
+                        table.Save(new PrototypeBasedData { Name = "TeST" + i });
+            });
 
-    [Test]
-    public void SaveData3()
-    {
-      var swatch = DateTime.Now;
+            var list1count = table.IndexQueryByKey("LastName", "Test5").Count();
+            var list2count = table.IndexQueryByKey("LastNameText", "TEst5").Count();
 
-      db.BulkWrite(() =>
-      {
-        table.Purge();
-        var key = 1;
-        var newObj = new PrototypeBasedData { Id = key, Name = "test" };
-        table.Save(newObj);
+            Assert.Equal(list1count, 100);
+            Assert.Equal(list2count, 200);
+        }
 
-        var obj = table.LoadByKey(key);
+        [Fact]
+        public void LoadData3()
+        {
+            var table = db.Table<AData>();
+            var items = table.LoadAll();
+            Assert.NotNull(items);
+        }
 
-        Assert.AreEqual(newObj.Name, obj.Name);
+        [Fact]
+        public void SaveData3()
+        {
+            db.BulkWrite(() =>
+            {
+                table.Purge();
+                var key = 1;
+                var newObj = new PrototypeBasedData { Id = key, Name = "test" };
+                table.Save(newObj);
 
-      });
-    }
+                var obj = table.LoadByKey(key);
 
-    public class Person
-    {
-      public int PersonID;
-      public string Forename, Surname;
-    }
+                Assert.Equal(newObj.Name, obj.Name);
 
-    [Test]
-    public void TestGordon()
-    {
-      db = new DbInstance("gordon.db");
-      db.Map<Person>().Automap(i => i.PersonID, true).WithIndex("Surname", i => i.Surname);
-      db.Initialize();
+            });
+        }
 
-      var table = db.Table<Person>();
+        public class Person
+        {
+            public int PersonID;
+            public string Forename, Surname;
+        }
 
-      table.Purge();
+        [Fact]
+        public void TestGordon()
+        {
+            db = new DbInstance("gordon.db");
+            db.Map<Person>().Automap(i => i.PersonID, true).WithIndex("Surname", i => i.Surname);
+            db.Initialize();
 
-      Person newPerson1 = new Person { Forename = "Joe", Surname = "Bloggs" };
-      Person newPerson2 = new Person { Forename = "James", Surname = "Smith" };
-      Person newPerson3 = new Person { Forename = "David", Surname = "Peterson" };
-      Person newPerson4 = new Person { Forename = "Steve", Surname = "Gordon" };
-      Person newPerson5 = new Person { Forename = "David", Surname = "Gordon" };
-      Person newPerson6 = new Person { Forename = "Colin", Surname = "Gordon" };
-      Person newPerson7 = new Person { Forename = "Michael", Surname = "Gordon" };
+            var table = db.Table<Person>();
 
-      var newPeople = new[]
-      {
+            table.Purge();
+
+            Person newPerson1 = new Person { Forename = "Joe", Surname = "Bloggs" };
+            Person newPerson2 = new Person { Forename = "James", Surname = "Smith" };
+            Person newPerson3 = new Person { Forename = "David", Surname = "Peterson" };
+            Person newPerson4 = new Person { Forename = "Steve", Surname = "Gordon" };
+            Person newPerson5 = new Person { Forename = "David", Surname = "Gordon" };
+            Person newPerson6 = new Person { Forename = "Colin", Surname = "Gordon" };
+            Person newPerson7 = new Person { Forename = "Michael", Surname = "Gordon" };
+
+            var newPeople = new[]
+            {
         newPerson1,
         newPerson2,
         newPerson3,
@@ -133,32 +132,36 @@ namespace ClientNoSql.Tests
         newPerson7
       };
 
-      table.Save(newPeople);
+            table.Save(newPeople);
 
-      var index = table.IndexQuery<string>("Surname");
-      // HIJKLMNOPQRS
+            var index = table.IndexQuery<string>("Surname");
 
-      var queryindex = index.GreaterThan("H", true).LessThan("T", true).ToLazyList();
-      Assert.AreEqual(2, queryindex.Count);
+            var queryIndex = index.GreaterThan("H", true).LessThan("T", true).ToLazyList();
+            Assert.Equal(2, queryIndex.Count);
+        }
+
+        public void Dispose()
+        {
+            CleanUp();
+        }
     }
-  }
 
-  public struct Point
-  {
-    public int X, Y;
-  }
-
-  public class PointSerializer
-  {
-    public static Point ReadPoint(DataReader reader)
+    public struct Point
     {
-      return new Point { X = reader.ReadInt32(), Y = reader.ReadInt32() };
+        public int X, Y;
     }
 
-    public static void WritePoint(DataWriter writer, Point point)
+    public class PointSerializer
     {
-      writer.Write(point.X);
-      writer.Write(point.Y);
+        public static Point ReadPoint(DataReader reader)
+        {
+            return new Point { X = reader.ReadInt32(), Y = reader.ReadInt32() };
+        }
+
+        public static void WritePoint(DataWriter writer, Point point)
+        {
+            writer.Write(point.X);
+            writer.Write(point.Y);
+        }
     }
-  }
 }
