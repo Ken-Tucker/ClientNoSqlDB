@@ -6,6 +6,7 @@ It will work with .net Framework 4.6.1, Xamarin.Android, Xamarin.iOS, and .net c
 
 This NoSql database is based on Lex.DB
 
+ [![NuGet Package](https://img.shields.io/nuget/v/ClientNoSqlDB.svg?logo=nuget&logoColor=white&&style=for-the-badge&colorB=green)](https://www.nuget.org/packages/ClientNoSqlDB)
 
 
 
