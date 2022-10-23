@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace ClientNoSqlDB.Samples.NetCore
+﻿namespace ClientNoSqlDB.Samples.Maui
 {
-    class Program
+    public partial class MainPage : ContentPage
     {
-        static void Main(string[] args)
+        int count = 0;
+
+        public MainPage()
         {
+            InitializeComponent();
             List<Person> list;
             using (var db = new ClientNoSqlDB.DbInstance("testing"))
             {
@@ -28,25 +27,23 @@ namespace ClientNoSqlDB.Samples.NetCore
                 }
                 list = db.LoadAll<Person>().ToList();
 
-                foreach(var p in list)
+                foreach (var p in list)
                 {
                     Console.WriteLine($"{p.FirstName} {p.LastName}");
                 }
-
             }
+        }
 
+        private void OnCounterClicked(object sender, EventArgs e)
+        {
+            count++;
 
+            if (count == 1)
+                CounterBtn.Text = $"Clicked {count} time";
+            else
+                CounterBtn.Text = $"Clicked {count} times";
+
+            SemanticScreenReader.Announce(CounterBtn.Text);
         }
     }
-
-    public class Person
-    {
-        public int Id { get; set; }
-
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
-
-    }
 }
-
