@@ -9,7 +9,9 @@ namespace ClientNoSql.Tests
     public class DbTests3 : IDisposable
     {
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public DbTests3()
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             PurgeDb();
         }
@@ -25,7 +27,9 @@ namespace ClientNoSql.Tests
             return db;
         }
 
+#pragma warning disable xUnit1013 // Public method should be marked as test
         public void PurgeDb()
+#pragma warning restore xUnit1013 // Public method should be marked as test
         {
             using (var i = Prepare())
                 i.Purge();
@@ -34,7 +38,9 @@ namespace ClientNoSql.Tests
             table = db.Table<AData>();
         }
 
+#pragma warning disable xUnit1013 // Public method should be marked as test
         public void CleanUp()
+#pragma warning restore xUnit1013 // Public method should be marked as test
         {
             db.Purge();
             db.Dispose();
@@ -67,8 +73,8 @@ namespace ClientNoSql.Tests
             var list1count = table.IndexQueryByKey("LastName", "Test5").Count();
             var list2count = table.IndexQueryByKey("LastNameText", "TEst5").Count();
 
-            Assert.Equal(list1count, 100);
-            Assert.Equal(list2count, 200);
+            Assert.Equal(100,list1count);
+            Assert.Equal(200,list2count);
         }
 
         [Fact]
@@ -99,7 +105,9 @@ namespace ClientNoSql.Tests
         public class Person
         {
             public int PersonID;
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
             public string Forename, Surname;
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         }
 
         [Fact]

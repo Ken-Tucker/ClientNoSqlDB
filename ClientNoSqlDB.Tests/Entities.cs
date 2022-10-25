@@ -11,8 +11,10 @@ namespace ClientNoSql.Tests
   public class MyData 
   {
     public int Id { get; set; }
-    public string Name { get; set; }
-    public string LastName { get; set; }
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        public string Name { get; set; }
+        public string LastName { get; set; }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
     public short ShortField { get; set; }
     public short? ShortNField { get; set; }
@@ -56,7 +58,8 @@ namespace ClientNoSql.Tests
     public Guid GuidField { get; set; }
     public Guid? GuidNField { get; set; }
 
-    public List<int> ListField { get; set; }
+ #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+   public List<int> ListField { get; set; }
 
     public Dictionary<string, int> DictField { get; set; }
     public ObservableCollection<int> CollectionField { get; set; }
@@ -66,8 +69,9 @@ namespace ClientNoSql.Tests
 
     public byte[] BlobField;
 
-    public StringBuilder StringBuilderField;
-    public UriBuilder UriBuilderField;
+        public StringBuilder StringBuilderField;
+        public UriBuilder UriBuilderField;
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
   }
 
   /// <summary>
@@ -86,10 +90,12 @@ namespace ClientNoSql.Tests
   public class MyDataGroup
   {
     public int Id { get; set; }
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public string Name { get; set; }
     public List<MyData> Items { get; set; }
-    public MyDataGroup Parent { get; set; }
-  }
+        public MyDataGroup Parent { get; set; }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    }
 
   /// <summary>
   /// Interface for interface based data entity 
@@ -106,8 +112,10 @@ namespace ClientNoSql.Tests
   public class InterfaceBasedData: IData
   {
     public int Id { get; set; }
-    public string Name { get; set; }
-  }
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        public string Name { get; set; }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    }
 
   /// <summary>
   /// Prototype for prototype based data entity
@@ -124,8 +132,10 @@ namespace ClientNoSql.Tests
   public class PrototypeBasedData: AData
   {
     public override int Id { get; set; }
-    public override string Name { get; set; }
-  }
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        public override string Name { get; set; }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    }
 
   public class MyDataKeys
   {

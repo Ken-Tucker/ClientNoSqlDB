@@ -18,7 +18,9 @@ namespace ClientNoSql.Tests
 
     public class DbTests : WorkItemTest, IDisposable
     {
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public DbTests()
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             PurgeDb();
         }
@@ -86,14 +88,14 @@ namespace ClientNoSql.Tests
             db.Dispose();
         }
 
-        [Fact]
+       
         public void OpenDb()
         {
             db = new DbInstance("My Database");
             db.Initialize();
         }
 
-        [Fact]
+      
         public void OpenDbComplexPath()
         {
             db = new DbInstance(@"My Database\My Schema");
@@ -252,7 +254,7 @@ namespace ClientNoSql.Tests
             Assert.True(a.OrderBy(i => i.Id).Select(i => i.Id).SequenceEqual(b.OrderBy(i => i.Id).Select(i => i.Id)));
         }
 
-        [Fact]
+       
         public void LoadData()
         {
             var table = db.Table<MyData>();
@@ -313,13 +315,13 @@ namespace ClientNoSql.Tests
             });
         }
 
-        [Fact]
+        
         public void Compact()
         {
             table.Compact();
         }
 
-        [Fact]
+        
         public void CheckInfo()
         {
             var info1 = table.GetInfo();
@@ -627,8 +629,12 @@ namespace ClientNoSql.Tests
         public class TemplateModel
         {
             public int Id { get; set; }
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
             public string ForeignIds { get; set; }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
             public string Name { get; set; }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
             public int Type { get; set; }
         }
 
@@ -657,7 +663,7 @@ namespace ClientNoSql.Tests
             //indexQuery2 returns 0 records, wrong!
             var indexQuery2 = db.Table<TemplateModel>().IndexQueryByKey<int>("Type", 3).ToList();
 
-            Assert.Equal(1, indexQuery2.Count());
+            Assert.Single(indexQuery2);
         }
 
         #endregion
