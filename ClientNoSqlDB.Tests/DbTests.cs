@@ -20,6 +20,8 @@ namespace ClientNoSql.Tests
     {
         public DbTests()
         {
+            db = Prepare();
+            table = db.Table<MyData>();
             PurgeDb();
         }
 
