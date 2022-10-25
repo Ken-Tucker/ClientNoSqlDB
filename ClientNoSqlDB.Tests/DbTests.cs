@@ -18,9 +18,7 @@ namespace ClientNoSql.Tests
 
     public class DbTests : WorkItemTest, IDisposable
     {
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public DbTests()
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             PurgeDb();
         }
@@ -53,8 +51,8 @@ namespace ClientNoSql.Tests
 
 
         }
-
-        public void TestPKKey<T>(Expression<Func<MyDataKeys, T>> pkGetter, Action<MyDataKeys, T> pkSetter, T key)
+        
+        private void TestPKKey<T>(Expression<Func<MyDataKeys, T>> pkGetter, Action<MyDataKeys, T> pkSetter, T key)
         {
             db = new DbInstance("DbKeys");
             db.Map<MyDataKeys>().Key(pkGetter);
@@ -72,7 +70,7 @@ namespace ClientNoSql.Tests
         }
 
 
-        public void PurgeDb()
+        private void PurgeDb()
         {
             using (var i = Prepare())
                 i.Purge();
@@ -81,22 +79,22 @@ namespace ClientNoSql.Tests
             table = db.Table<MyData>();
         }
 
-        public void CleanUp()
+        private void CleanUp()
         {
             Debugger.Break();
             db.Purge();
             db.Dispose();
         }
+        
 
-       
-        public void OpenDb()
+        private void OpenDb()
         {
             db = new DbInstance("My Database");
             db.Initialize();
         }
 
-      
-        public void OpenDbComplexPath()
+        
+        private void OpenDbComplexPath()
         {
             db = new DbInstance(@"My Database\My Schema");
             db.Initialize();
@@ -184,8 +182,8 @@ namespace ClientNoSql.Tests
             var list1count = table.IndexQueryByKey("LastName", "Test5").Count();
             var list2count = table.IndexQueryByKey("LastNameText", "TEst5").Count();
 
-            Assert.Equal(list1count, 100);
-            Assert.Equal(list2count, 200);
+            Assert.Equal(100,list1count);
+            Assert.Equal(200,list2count);
         }
 
         [Fact]
@@ -254,8 +252,8 @@ namespace ClientNoSql.Tests
             Assert.True(a.OrderBy(i => i.Id).Select(i => i.Id).SequenceEqual(b.OrderBy(i => i.Id).Select(i => i.Id)));
         }
 
-       
-        public void LoadData()
+
+        private void LoadData()
         {
             var table = db.Table<MyData>();
             var items = table.LoadAll();
@@ -316,13 +314,13 @@ namespace ClientNoSql.Tests
         }
 
         
-        public void Compact()
+        private void Compact()
         {
             table.Compact();
         }
 
-        
-        public void CheckInfo()
+
+        private void CheckInfo()
         {
             var info1 = table.GetInfo();
             var info2 = db.GetInfo();

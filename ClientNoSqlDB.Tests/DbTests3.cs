@@ -27,9 +27,7 @@ namespace ClientNoSql.Tests
             return db;
         }
 
-#pragma warning disable xUnit1013 // Public method should be marked as test
-        public void PurgeDb()
-#pragma warning restore xUnit1013 // Public method should be marked as test
+        private void PurgeDb()
         {
             using (var i = Prepare())
                 i.Purge();
@@ -38,9 +36,7 @@ namespace ClientNoSql.Tests
             table = db.Table<AData>();
         }
 
-#pragma warning disable xUnit1013 // Public method should be marked as test
-        public void CleanUp()
-#pragma warning restore xUnit1013 // Public method should be marked as test
+        private void CleanUp()
         {
             db.Purge();
             db.Dispose();

@@ -11,7 +11,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientNoSqlDB.Samples.NetCo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientNoSqlDB.Samples.Maui", "ClientNoSqlDB.Samples.Maui\ClientNoSqlDB.Samples.Maui.csproj", "{6825D6AE-32D1-4F91-BB7E-7D87B5E32A54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientNoSqlDB.Tests", "ClientNoSqlDB.Tests\ClientNoSqlDB.Tests.csproj", "{D3675AD7-638F-499A-8540-0DC8ECFDC5A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientNoSqlDB.Tests", "ClientNoSqlDB.Tests\ClientNoSqlDB.Tests.csproj", "{D3675AD7-638F-499A-8540-0DC8ECFDC5A9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{95B8DEF1-FE1D-4778-9875-3234F7B8899F}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -28,9 +28,7 @@ namespace ClientNoSql.Tests
             return db;
         }
 
-#pragma warning disable xUnit1013 // Public method should be marked as test
-        public void PurgeDb()
-#pragma warning restore xUnit1013 // Public method should be marked as test
+        private void PurgeDb()
         {
             try
             {
@@ -45,9 +43,7 @@ namespace ClientNoSql.Tests
             table = db.Table<IData>();
         }
 
-#pragma warning disable xUnit1013 // Public method should be marked as test
-        public void CleanUp()
-#pragma warning restore xUnit1013 // Public method should be marked as test
+        private void CleanUp()
         {
             db.Purge();
             db.Dispose();

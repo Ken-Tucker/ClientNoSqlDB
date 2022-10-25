@@ -13,7 +13,7 @@ namespace ClientNoSqlDB
     public MStream(byte[] data, bool writable) : base(data, writable) { }
 
 
-    public byte[] GetBuffer() 
+    public override byte[] GetBuffer() 
     {
       return ToArray();
     }

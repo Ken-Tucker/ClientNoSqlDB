@@ -735,7 +735,7 @@ namespace ClientNoSqlDB.Serialization
     /// Reads Decimal value from stream
     /// </summary>
     /// <returns>Decimal value</returns>
-    public decimal ReadDecimal()
+    public override decimal ReadDecimal()
     {
       return new decimal(new[] { ReadInt32(), ReadInt32(), ReadInt32(), ReadInt32() });
     }
