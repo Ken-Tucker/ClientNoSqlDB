@@ -24,6 +24,5 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore -s https://www.myget.org/F/caliburn-micro-builds/api/v3/index.json -s https://api.nuget.org/v3/index.json
     - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet build --configuration Release --no-restore
+
