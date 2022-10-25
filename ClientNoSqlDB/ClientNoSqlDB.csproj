@@ -2,7 +2,7 @@
 
   <PropertyGroup>
 	<TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
-    <PackOnBuild>true</PackOnBuild>
+    <PackOnBuild>false</PackOnBuild>
     <PackageId>ClientNoSqlDB</PackageId>
     <PackageVersion>2.0</PackageVersion>
     <Authors>Ken Tucker</Authors>
@@ -14,7 +14,7 @@
     <Title>Client No SQL DB</Title>
     <Description>.net standard version of  Lex.DB</Description>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
