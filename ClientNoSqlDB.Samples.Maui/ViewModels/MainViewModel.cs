@@ -9,7 +9,6 @@ namespace ClientNoSqlDB.Samples.Maui.ViewModels
 
         public MainViewModel()
         {
-
             dataService = new DataService();
             People = dataService.GetPeopleFromDB();
         }

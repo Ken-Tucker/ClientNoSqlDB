@@ -1,4 +1,7 @@
-﻿using ClientNoSqlDB.Samples.Maui.ViewModels;
+﻿using Caliburn.Micro;
+using ClientNoSqlDB.Samples.Maui.Services;
+using ClientNoSqlDB.Samples.Maui.ViewModels;
+using System.ComponentModel;
 
 namespace ClientNoSqlDB.Samples.Maui
 {
@@ -12,7 +15,6 @@ namespace ClientNoSqlDB.Samples.Maui
 
             DisplayRootViewForAsync<MainViewModel>();
         }
-       
-        
+
     }
 }

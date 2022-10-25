@@ -10,7 +10,9 @@ namespace ClientNoSql.Tests
 {
     public class DbTests2 : WorkItemTest, IDisposable
     {
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public DbTests2()
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             PurgeDb();
         }
@@ -26,7 +28,7 @@ namespace ClientNoSql.Tests
             return db;
         }
 
-        public void PurgeDb()
+        private void PurgeDb()
         {
             try
             {
@@ -41,7 +43,7 @@ namespace ClientNoSql.Tests
             table = db.Table<IData>();
         }
 
-        public void CleanUp()
+        private void CleanUp()
         {
             db.Purge();
             db.Dispose();
@@ -70,12 +72,12 @@ namespace ClientNoSql.Tests
                     for (var i = 0; i < 10; i++)
                         table.Save(new InterfaceBasedData { Name = "TeST" + i });
             });
-
+            
             var list1count = table.IndexQuery<string>("LastName").Key("Test5").Count();
             var list2count = table.IndexQuery<string>("LastNameText").Key("TEst5").Count();
 
-            Assert.Equal(list1count, 100);
-            Assert.Equal(list2count, 200);
+            Assert.Equal(100, list1count);
+            Assert.Equal(200,list2count);
 
             var list3count = table.IndexQuery<string>("LastName").GreaterThan("Test5").Count();
             var list4count = table.IndexQuery<string>("LastName").LessThan("Test6").Count();
