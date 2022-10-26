@@ -29,4 +29,7 @@ jobs:
       run: dotnet test --configuration Release --no-build --verbosity normal
     - name: Pack Nuget
       run: dotnet pack ClientNoSqlDB/ClientNoSqlDB.csproj
-
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: published_nuget
+        path: ClientNoSqlDB/bin/Release/ClientNoSqlDB.2.0.0.nupkg
