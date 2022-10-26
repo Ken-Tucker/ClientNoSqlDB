@@ -28,7 +28,7 @@ jobs:
     - name: Test
       run: dotnet test --configuration Release --no-build --verbosity normal
     - name: Pack Nuget
-      run: dotnet pack ClientNoSqlDB/ClientNoSqlDB.csproj
+      run: dotnet pack ClientNoSqlDB/ClientNoSqlDB.csproj --configuration Release 
     - name: Upload Artifact
       uses: actions/upload-artifact@v1.0.0
       with:
