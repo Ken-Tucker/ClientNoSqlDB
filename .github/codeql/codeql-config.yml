@@ -2,3 +2,6 @@ name: "Security and Quality"
 
 queries:
   - uses: security-and-quality
+
+paths-ignore: 
+  - '/ClientNoSqlDB.Samples.Maui/obj'
