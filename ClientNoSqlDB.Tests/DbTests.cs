@@ -103,17 +103,9 @@ namespace ClientNoSql.Tests
         [Fact]
         public void DoubleOpenDbComplexPath()
         {
-            try
-            {
-                db = new DbInstance(@"My Database\My Schema");
-                db.Initialize();
-                db.Initialize();
-
-                Assert.True(false, "InvalidOperationException expected");
-            }
-            catch (InvalidOperationException)
-            {
-            }
+            db = new DbInstance(@"My Database\My Schema");
+            db.Initialize();
+            Assert.Throws<InvalidOperationException>(() => db.Initialize());
         }
 
         [Fact]
@@ -636,27 +628,27 @@ namespace ClientNoSql.Tests
         [Fact]
         void TestDeleteBugfix()
         {
-            var db = new DbInstance("test.fix1");
+            var localDb = new DbInstance("test.fix1");
 
             //mapping done before init
-            db.Map<TemplateModel>().Automap(i => i.Id, false).WithIndex<int>("Type", i => i.Type);
+            localDb.Map<TemplateModel>().Automap(i => i.Id, false).WithIndex<int>("Type", i => i.Type);
 
-            db.Initialize();
+            localDb.Initialize();
 
             //testing this in a method
-            db.Table<TemplateModel>().Save(new TemplateModel { Id = 66, Name = "test", Type = 3 });
-            db.Table<TemplateModel>().Save(new TemplateModel { Id = 67, Name = "test2", Type = 3 });
+            localDb.Table<TemplateModel>().Save(new TemplateModel { Id = 66, Name = "test", Type = 3 });
+            localDb.Table<TemplateModel>().Save(new TemplateModel { Id = 67, Name = "test2", Type = 3 });
             //The Type is 3 for both records 
             //The first indexQuery returns 2 records, OK!
-            _ = db.Table<TemplateModel>().IndexQueryByKey<int>("Type", 3).ToList();
+            _ = localDb.Table<TemplateModel>().IndexQueryByKey<int>("Type", 3).ToList();
 
-            db.Table<TemplateModel>().DeleteByKey<int>(67);
+            localDb.Table<TemplateModel>().DeleteByKey<int>(67);
 
             //allItems returns 1 record, OK!
-            _ = db.Table<TemplateModel>().LoadAll().ToList();
+            _ = localDb.Table<TemplateModel>().LoadAll().ToList();
 
             //indexQuery2 returns 0 records, wrong!
-            var indexQuery2 = db.Table<TemplateModel>().IndexQueryByKey<int>("Type", 3).ToList();
+            var indexQuery2 = localDb.Table<TemplateModel>().IndexQueryByKey<int>("Type", 3).ToList();
 
             Assert.Single(indexQuery2);
         }

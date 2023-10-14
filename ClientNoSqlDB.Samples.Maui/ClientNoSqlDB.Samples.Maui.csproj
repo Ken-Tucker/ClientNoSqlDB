@@ -49,6 +49,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Remove="AppShell.xaml.cs" />
+	  <Compile Remove="MainPage.xaml.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Remove="AppShell.xaml" />
+	  <MauiXaml Remove="MainPage.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <PackageReference Include="Caliburn.Micro.Maui" Version="5.0.5-beta" />
 	</ItemGroup>
 
