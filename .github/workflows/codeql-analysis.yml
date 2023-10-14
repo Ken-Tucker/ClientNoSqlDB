@@ -39,8 +39,10 @@ jobs:
       run: dotnet restore -s https://www.myget.org/F/caliburn-micro-builds/api/v3/index.json -s https://api.nuget.org/v3/index.json
     - name: Build
       run: dotnet build --configuration Release --no-restore
-
-
+    - name: Remove File
+      uses: JesseTG/rm@v1.0.3
+      with:
+         path: /ClientNoSqlDB.Samples.Maui/obj
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 https://git.io/JvXDl
 
