@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 
 namespace ClientNoSqlDB.Samples.Maui.Services
 {
@@ -11,7 +6,7 @@ namespace ClientNoSqlDB.Samples.Maui.Services
     {
         public BindableCollection<Person> GetPeopleFromDB()
         {
-            BindableCollection<Person> people = new BindableCollection<Person>();
+            BindableCollection<Person> people;
             using (var db = new ClientNoSqlDB.DbInstance("testing"))
             {
                 db.Map<Person>().Automap(i => i.Id);

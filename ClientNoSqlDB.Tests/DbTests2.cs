@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using ClientNoSqlDB;
+﻿using ClientNoSqlDB;
 using ClientNoSqlDB.Serialization;
 using Xunit;
 
@@ -59,37 +55,37 @@ namespace ClientNoSql.Tests
               .WithIndex("LastNameText", i => i.Name, StringComparer.CurrentCultureIgnoreCase);
             db.Initialize();
 
-            var table = db.Table<IData>();
-            table.Purge();
+            var localTable = db.Table<IData>();
+            localTable.Purge();
 
             db.BulkWrite(() =>
             {
                 for (var s = 0; s < 100; s++)
                     for (var i = 0; i < 10; i++)
-                        table.Save(new InterfaceBasedData { Name = "Test" + i });
+                        localTable.Save(new InterfaceBasedData { Name = "Test" + i });
 
                 for (var s = 0; s < 100; s++)
                     for (var i = 0; i < 10; i++)
-                        table.Save(new InterfaceBasedData { Name = "TeST" + i });
+                        localTable.Save(new InterfaceBasedData { Name = "TeST" + i });
             });
-            
-            var list1count = table.IndexQuery<string>("LastName").Key("Test5").Count();
-            var list2count = table.IndexQuery<string>("LastNameText").Key("TEst5").Count();
+
+            var list1count = localTable.IndexQuery<string>("LastName").Key("Test5").Count();
+            var list2count = localTable.IndexQuery<string>("LastNameText").Key("TEst5").Count();
 
             Assert.Equal(100, list1count);
-            Assert.Equal(200,list2count);
+            Assert.Equal(200, list2count);
 
-            var list3count = table.IndexQuery<string>("LastName").GreaterThan("Test5").Count();
-            var list4count = table.IndexQuery<string>("LastName").LessThan("Test6").Count();
-            var list5count = table.IndexQuery<string>("LastName").LessThan("Test6").GreaterThan("Test5").Count();
+            var list3count = localTable.IndexQuery<string>("LastName").GreaterThan("Test5").Count();
+            var list4count = localTable.IndexQuery<string>("LastName").LessThan("Test6").Count();
+            var list5count = localTable.IndexQuery<string>("LastName").LessThan("Test6").GreaterThan("Test5").Count();
 
             Assert.Equal(900, list3count);
             Assert.Equal(1200, list4count);
             Assert.Equal(100, list5count);
 
-            var list6count = table.IndexQuery<string>("LastName").GreaterThan("Test5", true).Count();
-            var list7count = table.IndexQuery<string>("LastName").LessThan("Test6", true).Count();
-            var list8count = table.IndexQuery<string>("LastName").LessThan("Test6", true).GreaterThan("Test5", true).Count();
+            var list6count = localTable.IndexQuery<string>("LastName").GreaterThan("Test5", true).Count();
+            var list7count = localTable.IndexQuery<string>("LastName").LessThan("Test6", true).Count();
+            var list8count = localTable.IndexQuery<string>("LastName").LessThan("Test6", true).GreaterThan("Test5", true).Count();
 
             Assert.Equal(1000, list6count);
             Assert.Equal(1300, list7count);
@@ -99,8 +95,8 @@ namespace ClientNoSql.Tests
         [Fact]
         public void LoadData2()
         {
-            var table = db.Table<IData>();
-            var items = table.LoadAll();
+            var localTable = db.Table<IData>();
+            var items = localTable.LoadAll();
             Assert.NotNull(items);
         }
 
