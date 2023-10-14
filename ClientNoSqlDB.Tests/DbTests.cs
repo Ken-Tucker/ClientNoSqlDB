@@ -112,38 +112,21 @@ namespace ClientNoSql.Tests
         //    [ExpectedException(typeof(InvalidOperationException))]
         public void MapDb()
         {
-            try
-            {
-                db = new DbInstance(@"My Database\My Schema");
-                db.Map<MyData>();
+            db = new DbInstance(@"My Database\My Schema");
+            db.Map<MyData>();
 
-                db.Initialize();
-
-
-                Assert.True(false, "InvalidOperationException expected");
-            }
-            catch (InvalidOperationException)
-            {
-            }
+            Assert.Throws<InvalidOperationException>(() => db.Initialize());
         }
 
         [Fact]
-        //    [ExpectedException(typeof(InvalidOperationException))]
         public void MapDbWrong()
         {
-            try
-            {
-                db = new DbInstance(@"My Database\My Schema");
+            db = new DbInstance(@"My Database\My Schema");
 
-                db.Initialize();
+            db.Initialize();
 
-                db.Map<MyData>().Automap(i => i.Id);
 
-                Assert.True(false, "InvalidOperationException expected");
-            }
-            catch (InvalidOperationException)
-            {
-            }
+            Assert.Throws<InvalidOperationException>(() => db.Map<MyData>().Automap(i => i.Id));
         }
 
         [Fact]
