@@ -1,6 +1,5 @@
-﻿using System;
+﻿using ClientNoSqlDB;
 using ClientNoSqlDB.Serialization;
-using ClientNoSqlDB;
 using Xunit;
 
 namespace ClientNoSql.Tests
@@ -52,32 +51,32 @@ namespace ClientNoSql.Tests
               .WithIndex("LastNameText", i => i.Name, StringComparer.CurrentCultureIgnoreCase);
             db.Initialize();
 
-            var table = db.Table<AData>();
-            table.Purge();
+            var localTable = db.Table<AData>();
+            localTable.Purge();
 
             db.BulkWrite(() =>
             {
                 for (var s = 0; s < 100; s++)
                     for (var i = 0; i < 10; i++)
-                        table.Save(new PrototypeBasedData { Name = "Test" + i });
+                        localTable.Save(new PrototypeBasedData { Name = "Test" + i });
 
                 for (var s = 0; s < 100; s++)
                     for (var i = 0; i < 10; i++)
-                        table.Save(new PrototypeBasedData { Name = "TeST" + i });
+                        localTable.Save(new PrototypeBasedData { Name = "TeST" + i });
             });
 
-            var list1count = table.IndexQueryByKey("LastName", "Test5").Count();
-            var list2count = table.IndexQueryByKey("LastNameText", "TEst5").Count();
+            var list1count = localTable.IndexQueryByKey("LastName", "Test5").Count();
+            var list2count = localTable.IndexQueryByKey("LastNameText", "TEst5").Count();
 
-            Assert.Equal(100,list1count);
-            Assert.Equal(200,list2count);
+            Assert.Equal(100, list1count);
+            Assert.Equal(200, list2count);
         }
 
         [Fact]
         public void LoadData3()
         {
-            var table = db.Table<AData>();
-            var items = table.LoadAll();
+            var localTable = db.Table<AData>();
+            var items = localTable.LoadAll();
             Assert.NotNull(items);
         }
 
@@ -113,9 +112,9 @@ namespace ClientNoSql.Tests
             db.Map<Person>().Automap(i => i.PersonID, true).WithIndex("Surname", i => i.Surname);
             db.Initialize();
 
-            var table = db.Table<Person>();
+            var localTable = db.Table<Person>();
 
-            table.Purge();
+            localTable.Purge();
 
             Person newPerson1 = new Person { Forename = "Joe", Surname = "Bloggs" };
             Person newPerson2 = new Person { Forename = "James", Surname = "Smith" };
@@ -136,9 +135,9 @@ namespace ClientNoSql.Tests
         newPerson7
       };
 
-            table.Save(newPeople);
+            localTable.Save(newPeople);
 
-            var index = table.IndexQuery<string>("Surname");
+            var index = localTable.IndexQuery<string>("Surname");
 
             var queryIndex = index.GreaterThan("H", true).LessThan("T", true).ToLazyList();
             Assert.Equal(2, queryIndex.Count);

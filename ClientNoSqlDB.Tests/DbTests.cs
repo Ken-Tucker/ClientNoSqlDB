@@ -1,9 +1,6 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Linq.Expressions;
+﻿using ClientNoSqlDB;
 using System.Diagnostics;
-using ClientNoSqlDB;
+using System.Linq.Expressions;
 using Xunit;
 
 namespace ClientNoSql.Tests
@@ -53,7 +50,7 @@ namespace ClientNoSql.Tests
 
 
         }
-        
+
         private void TestPKKey<T>(Expression<Func<MyDataKeys, T>> pkGetter, Action<MyDataKeys, T> pkSetter, T key)
         {
             db = new DbInstance("DbKeys");
@@ -87,7 +84,7 @@ namespace ClientNoSql.Tests
             db.Purge();
             db.Dispose();
         }
-        
+
 
         private void OpenDb()
         {
@@ -95,7 +92,7 @@ namespace ClientNoSql.Tests
             db.Initialize();
         }
 
-        
+
         private void OpenDbComplexPath()
         {
             db = new DbInstance(@"My Database\My Schema");
@@ -167,25 +164,25 @@ namespace ClientNoSql.Tests
               .WithIndex("LastNameText", i => i.Name, StringComparer.CurrentCultureIgnoreCase);
             db.Initialize();
 
-            var table = db.Table<MyData>();
-            table.Purge();
+            var localTable = db.Table<MyData>();
+            localTable.Purge();
 
             db.BulkWrite(() =>
             {
                 for (var s = 0; s < 100; s++)
                     for (var i = 0; i < 10; i++)
-                        table.Save(new MyData { Name = "Test" + i });
+                        localTable.Save(new MyData { Name = "Test" + i });
 
                 for (var s = 0; s < 100; s++)
                     for (var i = 0; i < 10; i++)
-                        table.Save(new MyData { Name = "TeST" + i });
+                        localTable.Save(new MyData { Name = "TeST" + i });
             });
 
-            var list1count = table.IndexQueryByKey("LastName", "Test5").Count();
-            var list2count = table.IndexQueryByKey("LastNameText", "TEst5").Count();
+            var list1count = localTable.IndexQueryByKey("LastName", "Test5").Count();
+            var list2count = localTable.IndexQueryByKey("LastNameText", "TEst5").Count();
 
-            Assert.Equal(100,list1count);
-            Assert.Equal(200,list2count);
+            Assert.Equal(100, list1count);
+            Assert.Equal(200, list2count);
         }
 
         [Fact]
@@ -196,46 +193,46 @@ namespace ClientNoSql.Tests
             db.Map<MyData>().Automap(i => i.Id, true).WithIndex("Test", i => i.IntField);
             db.Initialize();
 
-            var table = db.Table<MyData>();
-            table.Purge();
+            var localTable = db.Table<MyData>();
+            localTable.Purge();
 
             db.BulkWrite(() =>
             {
-                table.Save(new MyData { IntField = 1 });
-                table.Save(new MyData { IntField = 1 });
-                table.Save(new MyData { IntField = 1 });
-                table.Save(new MyData { IntField = 1 });
-                table.Save(new MyData { IntField = 1 });
-                table.Save(new MyData { IntField = 4 });
-                table.Save(new MyData { IntField = 4 });
-                table.Save(new MyData { IntField = 4 });
-                table.Save(new MyData { IntField = 4 });
-                table.Save(new MyData { IntField = 4 });
-                table.Save(new MyData { IntField = 3 });
-                table.Save(new MyData { IntField = 3 });
-                table.Save(new MyData { IntField = 3 });
-                table.Save(new MyData { IntField = 3 });
-                table.Save(new MyData { IntField = 3 });
-                table.Save(new MyData { IntField = 4 });
-                table.Save(new MyData { IntField = 5 });
-                table.Save(new MyData { IntField = 6 });
-                table.Save(new MyData { IntField = 6 });
-                table.Save(new MyData { IntField = 6 });
-                table.Save(new MyData { IntField = 6 });
-                table.Save(new MyData { IntField = 6 });
-                table.Save(new MyData { IntField = 6 });
-                table.Save(new MyData { IntField = 7 });
-                table.Save(new MyData { IntField = 8 });
-                table.Save(new MyData { IntField = 8 });
-                table.Save(new MyData { IntField = 8 });
-                table.Save(new MyData { IntField = 8 });
-                table.Save(new MyData { IntField = 8 });
-                table.Save(new MyData { IntField = 9 });
+                localTable.Save(new MyData { IntField = 1 });
+                localTable.Save(new MyData { IntField = 1 });
+                localTable.Save(new MyData { IntField = 1 });
+                localTable.Save(new MyData { IntField = 1 });
+                localTable.Save(new MyData { IntField = 1 });
+                localTable.Save(new MyData { IntField = 4 });
+                localTable.Save(new MyData { IntField = 4 });
+                localTable.Save(new MyData { IntField = 4 });
+                localTable.Save(new MyData { IntField = 4 });
+                localTable.Save(new MyData { IntField = 4 });
+                localTable.Save(new MyData { IntField = 3 });
+                localTable.Save(new MyData { IntField = 3 });
+                localTable.Save(new MyData { IntField = 3 });
+                localTable.Save(new MyData { IntField = 3 });
+                localTable.Save(new MyData { IntField = 3 });
+                localTable.Save(new MyData { IntField = 4 });
+                localTable.Save(new MyData { IntField = 5 });
+                localTable.Save(new MyData { IntField = 6 });
+                localTable.Save(new MyData { IntField = 6 });
+                localTable.Save(new MyData { IntField = 6 });
+                localTable.Save(new MyData { IntField = 6 });
+                localTable.Save(new MyData { IntField = 6 });
+                localTable.Save(new MyData { IntField = 6 });
+                localTable.Save(new MyData { IntField = 7 });
+                localTable.Save(new MyData { IntField = 8 });
+                localTable.Save(new MyData { IntField = 8 });
+                localTable.Save(new MyData { IntField = 8 });
+                localTable.Save(new MyData { IntField = 8 });
+                localTable.Save(new MyData { IntField = 8 });
+                localTable.Save(new MyData { IntField = 9 });
             });
 
-            var list1 = table.LoadAll();
+            var list1 = localTable.LoadAll();
 
-            var index = table.IndexQuery<int>("Test");
+            var index = localTable.IndexQuery<int>("Test");
 
             Assert.Equal(index.Key(1).Count(), list1.Count(i => i.IntField == 1));
             Assert.Equal(index.Key(8).Count(), list1.Count(i => i.IntField == 8));
@@ -257,15 +254,13 @@ namespace ClientNoSql.Tests
 
         private void LoadData()
         {
-            var table = db.Table<MyData>();
-            var items = table.LoadAll();
+            var localTable = db.Table<MyData>();
+            _ = localTable.LoadAll();
         }
 
         [Fact]
         public void SaveData()
         {
-            var swatch = DateTime.Now;
-
             db.BulkWrite(() =>
             {
                 table.Purge();
@@ -315,7 +310,7 @@ namespace ClientNoSql.Tests
             });
         }
 
-        
+
         private void Compact()
         {
             table.Compact();
@@ -324,8 +319,8 @@ namespace ClientNoSql.Tests
 
         private void CheckInfo()
         {
-            var info1 = table.GetInfo();
-            var info2 = db.GetInfo();
+            _ = table.GetInfo();
+            _ = db.GetInfo();
         }
 
 
@@ -653,12 +648,12 @@ namespace ClientNoSql.Tests
             db.Table<TemplateModel>().Save(new TemplateModel { Id = 67, Name = "test2", Type = 3 });
             //The Type is 3 for both records 
             //The first indexQuery returns 2 records, OK!
-            var indexQuery = db.Table<TemplateModel>().IndexQueryByKey<int>("Type", 3).ToList();
+            _ = db.Table<TemplateModel>().IndexQueryByKey<int>("Type", 3).ToList();
 
             db.Table<TemplateModel>().DeleteByKey<int>(67);
 
             //allItems returns 1 record, OK!
-            var allItems = db.Table<TemplateModel>().LoadAll().ToList();
+            _ = db.Table<TemplateModel>().LoadAll().ToList();
 
             //indexQuery2 returns 0 records, wrong!
             var indexQuery2 = db.Table<TemplateModel>().IndexQueryByKey<int>("Type", 3).ToList();
