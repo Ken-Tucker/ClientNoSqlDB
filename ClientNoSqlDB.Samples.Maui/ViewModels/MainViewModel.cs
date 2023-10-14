@@ -5,7 +5,7 @@ namespace ClientNoSqlDB.Samples.Maui.ViewModels
 {
     public class MainViewModel : Caliburn.Micro.Screen
     {
-        IDataService dataService;
+        private readonly IDataService dataService;
 
         public MainViewModel()
         {
