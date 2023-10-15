@@ -18,9 +18,9 @@ namespace ClientNoSqlDB.Serialization
       Value.Write(writer);
     }
 
-    public override bool Equals(DbType type)
+    public override bool AreEqual(DbType type)
     {
-      return type.Id == Id && ((DbDictType)type).Key.Equals(Key) && ((DbDictType)type).Value.Equals(Value);
+      return type.Id == Id && ((DbDictType)type).Key.AreEqual(Key) && ((DbDictType)type).Value.AreEqual(Value);
     }
 
     public readonly DbType Key, Value;

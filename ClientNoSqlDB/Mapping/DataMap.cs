@@ -206,9 +206,12 @@ namespace ClientNoSqlDB.Mapping
                     }
                 }
 
-            var result = (next != null) ? next.End : (long)0;
-            next.End += length;
-
+            long result = 0;
+            if (next != null)
+            {
+                result = next.End;
+                next.End += length;
+            }
             return result;
         }
 
