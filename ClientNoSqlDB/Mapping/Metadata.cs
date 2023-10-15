@@ -171,7 +171,7 @@ namespace ClientNoSqlDB.Mapping
 
         void Upgrade(Metadata<T> masters)
         {
-            if (!Key.Equals(masters.Key))
+            if (!Key.AreEqual(masters.Key))
                 throw new InvalidOperationException("Incompatible table storage");
 
             var local = new HashSet<MemberMap<T>>(_members.Values);
@@ -181,7 +181,7 @@ namespace ClientNoSqlDB.Mapping
             foreach (var master in masters._members.Values)
             {
                 var m = master;
-                var existing = local.FirstOrDefault(i => i.Name == m.Name && i.DbType.Equals(m.DbType));
+                var existing = local.FirstOrDefault(i => i.Name == m.Name && i.DbType.AreEqual(m.DbType));
                 if (existing != null)
                 {
                     existing.Id = master.Id;
