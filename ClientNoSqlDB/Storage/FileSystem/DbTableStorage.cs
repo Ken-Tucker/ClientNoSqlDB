@@ -31,7 +31,7 @@ namespace ClientNoSqlDB.FileSystem
                 {
                     return new FileStream(name, FileMode.OpenOrCreate, FileAccess.Read, FileShare.Read, buffered ? BufferSize : 4 * 1024);
                 }
-                catch
+                catch (IOException)
                 {
 
                     Thread.Sleep(100);
@@ -47,7 +47,7 @@ namespace ClientNoSqlDB.FileSystem
                 {
                     return new FileStream(name, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None, buffered ? BufferSize : 4 * 1024);
                 }
-                catch
+                catch (IOException)
                 {
                     Thread.Sleep(100);
                 }
