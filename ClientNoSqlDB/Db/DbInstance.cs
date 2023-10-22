@@ -227,29 +227,25 @@ namespace ClientNoSqlDB
 
         internal ITransactionScope ReadScope()
         {
-            var result = Current;
+            if (Current == null)
+                Current = new BulkReadScope();
 
-            if (result == null)
-                result = new BulkReadScope();
+            Current.AddRef();
 
-            result.AddRef();
-
-            return Current = result;
+            return Current;
         }
 
         internal ITransactionScope WriteScope()
         {
-            var result = Current;
-
-            if (result is BulkReadScope)
+            if (Current is BulkReadScope)
                 throw new InvalidOperationException("Nested write transaction inside read only one");
 
-            if (result == null)
-                result = new BulkWriteScope();
+            if (Current == null)
+                Current = new BulkWriteScope();
 
-            result.AddRef();
+            Current.AddRef();
 
-            return Current = result;
+            return Current;
         }
 
         class BulkReadScope : Dictionary<DbTable, IDbTableReader>, ITransactionScope
