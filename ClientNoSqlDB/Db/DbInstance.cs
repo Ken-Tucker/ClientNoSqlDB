@@ -228,11 +228,22 @@ namespace ClientNoSqlDB
         internal ITransactionScope ReadScope()
         {
             if (Current == null)
-                Current = new BulkReadScope();
+                CreateBulkReadScope();
 
             Current.AddRef();
 
             return Current;
+        }
+
+        internal static void CreateBulkReadScope()
+        {
+            Current = new BulkReadScope();
+
+        }
+
+        internal static void CreateBulkWriteScope()
+        {
+            Current = new BulkWriteScope();
         }
 
         internal ITransactionScope WriteScope()
@@ -241,7 +252,7 @@ namespace ClientNoSqlDB
                 throw new InvalidOperationException("Nested write transaction inside read only one");
 
             if (Current == null)
-                Current = new BulkWriteScope();
+                CreateBulkWriteScope();
 
             Current.AddRef();
 
