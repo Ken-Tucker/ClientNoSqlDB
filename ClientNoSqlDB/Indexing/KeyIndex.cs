@@ -101,7 +101,7 @@ namespace ClientNoSqlDB.Indexing
 
             for (var scan = bag; scan != null; scan = scan._next)
             {
-                if (scan._key == key)
+                if (scan._key.Equals(key))
                 {
                     if (prev == null)
                         bag = scan._next;
@@ -117,7 +117,7 @@ namespace ClientNoSqlDB.Indexing
         public static void SetValue(ref PropertyBag bag, object key, object value)
         {
             for (var scan = bag; scan != null; scan = scan._next)
-                if (scan._key == key)
+                if (scan._key.Equals(key))
                 {
                     scan._value = value;
                     return;
@@ -129,7 +129,7 @@ namespace ClientNoSqlDB.Indexing
         public static object GetValue(PropertyBag bag, object key)
         {
             for (var scan = bag; scan != null; scan = scan._next)
-                if (scan._key == key)
+                if (scan._key.Equals(key))
                     return scan._value;
 
             return null;
