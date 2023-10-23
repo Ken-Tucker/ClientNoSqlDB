@@ -220,17 +220,6 @@ namespace ClientNoSqlDB.Mapping
 
         public void Prepare()
         {
-            //#region Remap Ids (because of unmapped fields) ??? dont we need to preserve the data stream ???
-            //if (format)
-            //{
-            //  int idx = 0;
-            //  foreach (var m in _members.Values)
-            //    m.Id = idx++;
-
-            //  _members = _members.Values.ToDictionary(i => i.Id);
-            //}
-            //#endregion
-
             MakeBlob();
 
             _hash = Hash.Compute(_blob);
@@ -306,19 +295,18 @@ namespace ClientNoSqlDB.Mapping
             var writer = Expression.Parameter(typeof(DataWriter));
             var obj = Expression.Parameter(typeof(T));
             var ops = new List<Expression>();
-
-            foreach (var member in _members.Values)
-                if (member.Member != null)
-                {
-                    var writePropertyId = Expression.Call(writer, _writeShort, Expression.Constant((short)member.Id));
-                    var writePropertyValue = Serializers.WriteValue(writer, obj.Member(member));
-                    var block = Expression.Block(writePropertyId, writePropertyValue);
-
-                    if (_interceptor == null)
-                        ops.Add(block);
-                    else
-                        ops.Add(Expression.IfThen(Expression.Call(iceptor, _filter, obj, Expression.Constant(member.Name)), block));
-                }
+            foreach (var (member, block) in from member in _members.Values
+                                            where member.Member != null
+                                            let writePropertyId = Expression.Call(writer, _writeShort, Expression.Constant((short)member.Id))
+                                            let writePropertyValue = Serializers.WriteValue(writer, obj.Member(member))
+                                            let block = Expression.Block(writePropertyId, writePropertyValue)
+                                            select (member, block))
+            {
+                if (_interceptor == null)
+                    ops.Add(block);
+                else
+                    ops.Add(Expression.IfThen(Expression.Call(iceptor, _filter, obj, Expression.Constant(member.Name)), block));
+            }
 
             ops.Add(Expression.Call(writer, _writeShort, Expression.Constant((short)-1)));
 
