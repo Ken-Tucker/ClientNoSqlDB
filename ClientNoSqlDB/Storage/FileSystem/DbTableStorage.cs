@@ -18,6 +18,10 @@ namespace ClientNoSqlDB.FileSystem
 
         readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
 
+        public void Initialize()
+        {
+
+        }
         public void Flush()
         {
         }
@@ -61,7 +65,9 @@ namespace ClientNoSqlDB.FileSystem
             _lock.EnterReadLock();
             try
             {
-                return new Reader(this, _lock.ExitReadLock);
+                Reader reader = new Reader(this, _lock.ExitReadLock);
+                reader.Initialize();
+                return reader;
             }
             catch
             {
@@ -109,6 +115,10 @@ namespace ClientNoSqlDB.FileSystem
             {
                 _table = table;
                 _finalizer = finalizer;
+            }
+
+            public void Initialize()
+            {
                 CreateStreams();
                 UpdateTs();
             }
@@ -187,6 +197,7 @@ namespace ClientNoSqlDB.FileSystem
             public Writer(DbTableStorage table, Action finalizer)
               : base(table, finalizer)
             {
+                base.Initialize();
             }
 
             protected override void CreateStreams()
