@@ -685,10 +685,10 @@ namespace ClientNoSqlDB
             using (var scope = ReadScope())
             {
                 var reader = scope.Element;
-
-                foreach (var key in keys)
+                foreach (var info in from key in keys
+                                     let info = idx.FindByKey(key, true)
+                                     select info)
                 {
-                    var info = idx.FindByKey(key, true);
                     if (info == null)
                     {
                         if (yieldNotFound)
