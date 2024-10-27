@@ -15,22 +15,34 @@ jobs:
     runs-on: windows-2022
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 6.0.x
-    
+        dotnet-version: 8.0.x
+    - name: Setup Java SDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'microsoft' 
+        java-version: 11
+    - name: search workloads
+      run: dotnet workload search
+    - name: restore workloads
+      run: dotnet workload install maui maui-android maui-ios maui-tizen maui-maccatalyst maui-windows android --source https://api.nuget.org/v3/index.json
+    - name: list workloads
+      run: dotnet workload list 
     - name: Restore dependencies
       run: dotnet restore -s https://www.myget.org/F/caliburn-micro-builds/api/v3/index.json -s https://api.nuget.org/v3/index.json
+    - name: Restore win-x64
+      run: dotnet restore --runtime win-x64
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build --configuration Release 
     - name: Test
       run: dotnet test --configuration Release --no-build --verbosity normal
     - name: Pack Nuget
       run: dotnet pack ClientNoSqlDB/ClientNoSqlDB.csproj --configuration Release 
     - name: Upload Artifact
-      uses: actions/upload-artifact@v1.0.0
+      uses: actions/upload-artifact@v4
       with:
         name: published_nuget
         path: ClientNoSqlDB/bin/Release/ClientNoSqlDB.2.0.0.nupkg
