@@ -49,8 +49,10 @@ jobs:
       
     - name: Restore dependencies
       run: dotnet restore -s https://www.myget.org/F/caliburn-micro-builds/api/v3/index.json -s https://api.nuget.org/v3/index.json
+    - name: Restore win-x64
+      run: dotnet restore --runtime win-x64
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build --configuration Release 
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 https://git.io/JvXDl
