@@ -34,8 +34,19 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 6.0.x
-    
+        dotnet-version: 8.0.x
+    - name: Setup Java SDK
+      uses: actions/setup-java@v4
+      with:
+          distribution: 'microsoft' 
+          java-version: 11
+    - name: search workloads
+      run: dotnet workload search
+    - name: restore workloads
+      run: dotnet workload install maui maui-android maui-ios maui-tizen maui-maccatalyst maui-windows android --source https://api.nuget.org/v3/index.json
+    - name: list workloads
+      run: dotnet workload list 
+      
     - name: Restore dependencies
       run: dotnet restore -s https://www.myget.org/F/caliburn-micro-builds/api/v3/index.json -s https://api.nuget.org/v3/index.json
     - name: Build
