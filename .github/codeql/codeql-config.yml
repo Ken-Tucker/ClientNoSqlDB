@@ -4,4 +4,7 @@ queries:
   - uses: security-and-quality
 
 paths-ignore: 
-  - '/ClientNoSqlDB.Samples.Maui/obj'
+    # Ignore all files with the .Designer.cs extension (generated code)
+  -*.Designer.cs
+   # Ignore all files with the .generated.cs extension (generated code)
+  -*.generated.cs
