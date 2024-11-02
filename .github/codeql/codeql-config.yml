@@ -5,6 +5,6 @@ queries:
 
 paths-ignore: 
     # Ignore all files with the .Designer.cs extension (generated code)
-  - *.Designer.cs
+  - '*.Designer.cs'
    # Ignore all files with the .generated.cs extension (generated code)
-  - *.generated.cs
+  - '*.generated.cs'
