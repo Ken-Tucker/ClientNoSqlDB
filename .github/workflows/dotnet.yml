@@ -38,9 +38,10 @@ jobs:
     - name: Test
       run: dotnet test --configuration Release --no-build --verbosity normal
     - name: Pack Nuget
-      run: dotnet pack ClientNoSqlDB/ClientNoSqlDB.csproj --configuration Release 
+      run: dotnet pack ClientNoSqlDB/ClientNoSqlDB.csproj --configuration Release /p:Version=3.0.${{ github.run_attempt }} --configuration Release
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
         name: published_nuget
-        path: ClientNoSqlDB/bin/Release/ClientNoSqlDB.2.0.0.nupkg
+        path: ClientNoSqlDB/bin/Release/*.nupkg
+        if: github.event_name != 'pull_request'
