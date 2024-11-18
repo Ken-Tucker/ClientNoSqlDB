@@ -163,7 +163,11 @@ namespace ClientNoSqlDB.IsolatedStorage
                     return null;
 
                 var result = new byte[_indexStream.Length];
-                _indexStream.Read(result, 0, result.Length);
+#if NET_9_0
+                _ = _indexStream.ReadExacly(result, 0, result.Length);
+#else
+                _ = _indexStream.Read(result, 0, result.Length);
+#endif
                 return result;
             }
 
@@ -173,9 +177,11 @@ namespace ClientNoSqlDB.IsolatedStorage
                     _readStream.Seek(position, SeekOrigin.Begin);
 
                 var result = new byte[length];
-
-                _readStream.Read(result, 0, length);
-
+#if NET_9_0
+                _ = _readStream.ReadExactly(result, 0, length);
+#else
+                _ = _readStream.Read(result, 0, length);
+#endif
                 return result;
             }
 
@@ -229,8 +235,11 @@ namespace ClientNoSqlDB.IsolatedStorage
 
                 if (_readStream.Position != position)
                     _readStream.Seek(position, SeekOrigin.Begin);
-
-                _readStream.Read(data, 0, length);
+#if NET_9_0
+                _=_readStream.ReadExactly(data, 0, length);
+#else
+                _ = _readStream.Read(data, 0, length);
+#endif
 
                 if (_writeStream.Position != target)
                     _writeStream.Seek(target, SeekOrigin.Begin);
