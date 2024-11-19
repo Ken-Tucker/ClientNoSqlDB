@@ -344,11 +344,9 @@ namespace ClientNoSqlDB
                     {
                         var info = i.Value;
 
-                        using (var writer = info.Writer)
-                        {
-                            if (info.Modified)
-                                i.Key.Write(writer, info.Crop);
-                        }
+                        using var writer = info.Writer;
+                        if (info.Modified)
+                            i.Key.Write(writer, info.Crop);
                     }
 
                     Current = null;

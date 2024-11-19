@@ -1,20 +1,21 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	<TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
+	<TargetFrameworks>netstandard2.0;net8.0;net9.0</TargetFrameworks>
     <PackOnBuild>false</PackOnBuild>
     <PackageId>ClientNoSqlDB</PackageId>
-    <PackageVersion>2.0</PackageVersion>
+    <PackageVersion>3.0</PackageVersion>
     <Authors>Ken Tucker</Authors>
     <NeutralLanguage>en-US</NeutralLanguage>
     <Owners>Ken Tucker</Owners>
     <PackageProjectUrl>https://github.com/vb2ae/ClientNoSqlDB</PackageProjectUrl>
     <Summary>Client No SQL DB that in .net standard library</Summary>
-    <PackageTags>NoSQL Xamarin .net standard .net 6</PackageTags>
+    <PackageTags>NoSQL .net standard .net 8</PackageTags>
     <Title>Client No SQL DB</Title>
     <Description>.net standard version of  Lex.DB</Description>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+	  <LangVersion>11</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

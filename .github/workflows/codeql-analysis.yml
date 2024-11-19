@@ -14,7 +14,7 @@ jobs:
     name: Analyse
     runs-on: windows-2022
     permissions:
-      actions: read
+      actions: read 
       contents: read
       security-events: write
         
@@ -38,7 +38,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.x
+        dotnet-version: 9.0.x
     - name: Setup Java SDK
       uses: actions/setup-java@v4
       with:
@@ -53,10 +53,8 @@ jobs:
       
     - name: Restore dependencies
       run: dotnet restore -s https://www.myget.org/F/caliburn-micro-builds/api/v3/index.json -s https://api.nuget.org/v3/index.json
-    - name: Restore win-x64
-      run: dotnet restore --runtime win-x64
     - name: Build
-      run: dotnet build --configuration Release 
+      run: dotnet build ClientNoSqlDB/ClientNoSqlDB.csproj --configuration Release 
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 https://git.io/JvXDl

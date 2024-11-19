@@ -19,7 +19,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.x
+        dotnet-version: 9.0.x
     - name: Setup Java SDK
       uses: actions/setup-java@v4
       with:
@@ -33,16 +33,15 @@ jobs:
       run: dotnet workload list 
     - name: Restore dependencies
       run: dotnet restore -s https://www.myget.org/F/caliburn-micro-builds/api/v3/index.json -s https://api.nuget.org/v3/index.json
-    - name: Restore win-x64
-      run: dotnet restore --runtime win-x64
     - name: Build
       run: dotnet build --configuration Release 
     - name: Test
       run: dotnet test --configuration Release --no-build --verbosity normal
     - name: Pack Nuget
-      run: dotnet pack ClientNoSqlDB/ClientNoSqlDB.csproj --configuration Release 
+      run: dotnet pack ClientNoSqlDB/ClientNoSqlDB.csproj --configuration Release /p:Version=3.0.${{ github.run_attempt }} 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
         name: published_nuget
-        path: ClientNoSqlDB/bin/Release/ClientNoSqlDB.2.0.0.nupkg
+        path: ClientNoSqlDB/bin/Release/*.nupkg
+        if: github.event_name != 'pull_request'
