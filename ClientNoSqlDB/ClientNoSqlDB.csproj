@@ -1,35 +1,44 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-	<TargetFrameworks>netstandard2.0;net8.0;net9.0</TargetFrameworks>
-    <PackOnBuild>false</PackOnBuild>
-    <PackageId>ClientNoSqlDB</PackageId>
-    <PackageVersion>3.0</PackageVersion>
-    <Authors>Ken Tucker</Authors>
-    <NeutralLanguage>en-US</NeutralLanguage>
-    <Owners>Ken Tucker</Owners>
-    <PackageProjectUrl>https://github.com/vb2ae/ClientNoSqlDB</PackageProjectUrl>
-    <Summary>Client No SQL DB that in .net standard library</Summary>
-    <PackageTags>NoSQL .net standard .net 8</PackageTags>
-    <Title>Client No SQL DB</Title>
-    <Description>.net standard version of  Lex.DB</Description>
-    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-	  <LangVersion>11</LangVersion>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;net8.0;net9.0</TargetFrameworks>
+		<PackOnBuild>false</PackOnBuild>
+		<PackageId>ClientNoSqlDB</PackageId>
+		<PackageVersion>3.0</PackageVersion>
+		<Authors>Ken Tucker</Authors>
+		<NeutralLanguage>en-US</NeutralLanguage>
+		<Owners>Ken Tucker</Owners>
+		<PackageProjectUrl>https://github.com/vb2ae/ClientNoSqlDB</PackageProjectUrl>
+		<Summary>Client No SQL DB that in .net standard library</Summary>
+		<PackageTags>NoSQL .net standard .net 8</PackageTags>
+		<Title>Client No SQL DB</Title>
+		<Description>.net standard version of  Lex.DB</Description>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<LangVersion>11</LangVersion>
+		<GenerateSBOM>true</GenerateSBOM>
+		<SignAssembly>True</SignAssembly>
+		<AssemblyOriginatorKeyFile>ClientNoSqlDB.snk</AssemblyOriginatorKeyFile>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
 
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <ItemGroup>
-    <None Include="..\.editorconfig" Link=".editorconfig" />
-    <None Include="..\LICENSE.md">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="..\.editorconfig" Link=".editorconfig" />
+		<None Include="..\LICENSE.md">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Sbom.Targets" Version="3.0.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 </Project>
