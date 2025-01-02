@@ -16,6 +16,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0 # avoid shallow clone so nbgv can do its work
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
@@ -25,6 +27,14 @@ jobs:
       with:
         distribution: 'microsoft' 
         java-version: 17
+
+    - name: Install Microsoft SBom tool
+      run: dotnet tool install --global Microsoft.Sbom.DotNetTool
+        
+    - name: Install Nerdbank Git versioning
+      run: dotnet tool install -g nbgv    
+    - name: Set Version
+      run: nbgv cloud
     - name: search workloads
       run: dotnet workload search
     - name: restore workloads
@@ -38,10 +48,12 @@ jobs:
     - name: Test
       run: dotnet test --configuration Release --no-build --verbosity normal
     - name: Pack Nuget
-      run: dotnet pack ClientNoSqlDB/ClientNoSqlDB.csproj --configuration Release /p:Version=3.0.${{ github.run_attempt }} 
+      run: dotnet pack ClientNoSqlDB/ClientNoSqlDB.csproj --configuration Release 
+    - name: publish Nuget Packages to GitHub
+      run: dotnet nuget push packages/*.nupkg --source ClientNoSqlDB/bin/Release/*.nupkg --api-key ${{secrets.PUBLISH_NUGET_PACKAGE}} --skip-duplicate
+      if: github.event_name != 'pull_request'
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
         name: published_nuget
         path: ClientNoSqlDB/bin/Release/*.nupkg
-        if: github.event_name != 'pull_request'
