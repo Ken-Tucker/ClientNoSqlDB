@@ -27,7 +27,7 @@ jobs:
         id: get-run-id
         run: |
             REPO_NAME="${{ github.repository }}"
-            WF_NAME="dotnet-core.yml"
+            WF_NAME="dotnet.yml"
             RUN_ID=`gh run --repo ${REPO_NAME} list --workflow ${WF_NAME} --json databaseId --jq .[0].databaseId`
             echo "Detected latest run id of ${RUN_ID} for workflow ${WF_NAME}"
             echo "run-id=${RUN_ID}" >> "$GITHUB_OUTPUT"
