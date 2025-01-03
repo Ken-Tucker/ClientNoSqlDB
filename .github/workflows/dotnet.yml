@@ -52,7 +52,7 @@ jobs:
     - name: Pack Nuget
       run: dotnet pack ClientNoSqlDB/ClientNoSqlDB.csproj --configuration Release 
     - name: publish Nuget Packages to GitHub
-      run: dotnet nuget push ${{ vars.UPLOAD_NUGET_PATH }} --source ${{env.package_feed}} --api-key ${{secrets.PUBLISH_NUGET_PACKAGE}} --skip-duplicate      
+      run: dotnet nuget push ${{ vars.UPLOAD_NUGET_PATH }} --source ${{env.package_feed}} --api-key ${{secrets.UPLOAD_TO_NUGET}} --skip-duplicate      
       if: github.event_name != 'pull_request'
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
