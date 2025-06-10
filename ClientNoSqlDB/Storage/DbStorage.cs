@@ -10,14 +10,14 @@ namespace ClientNoSqlDB
     public IDbSchemaStorage OpenSchema(string path, object home)
     {
 
-      path = Path.Combine("ClientNoSqlDB", path);
+      path = Path.Join("ClientNoSqlDB", path);
       var root = home as string;
 
 
       if (root == null)
         root = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
-      return new FileSystem.DbSchemaStorage(Path.Combine(root, path));
+      return new FileSystem.DbSchemaStorage(Path.Join(root, path));
 
     }
 
