@@ -9,10 +9,11 @@ namespace ClientNoSqlDB
 
         public IDbSchemaStorage OpenSchema(string path, object home)
         {
-#if netstandard20
-            path = Path.Combine("ClientNoSqlDB", path);
-#elif NET8_0_OR_GREATER
+
+#if NET8_0_OR_GREATER
             path = Path.Join("ClientNoSqlDB", path);
+#else
+            path = Path.Combine("ClientNoSqlDB", path);
 #endif
             var root = home as string;
 

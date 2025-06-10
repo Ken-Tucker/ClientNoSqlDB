@@ -12,12 +12,13 @@ namespace ClientNoSqlDB.FileSystem
 
         public DbTableStorage(string path, string name)
         {
-#if netstandard20
-            _indexName = Path.Combine(path, name + ".index");
-            _dataName = Path.Combine(path, name + ".data");
-#elif NET8_0_OR_GREATER
+
+#if NET8_0_OR_GREATER
             _indexName = Path.Join(path, name + ".index");
             _dataName = Path.Join(path, name + ".data");
+#else
+            _indexName = Path.Combine(path, name + ".index");
+            _dataName = Path.Combine(path, name + ".data");
 #endif
         }
 
