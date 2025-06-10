@@ -14,8 +14,8 @@ namespace ClientNoSqlDB.IsolatedStorage
         public DbTableStorage(IsolatedStorageFile storage, string path, string name)
         {
             _storage = storage;
-            _indexName = Path.Combine(path, name + ".index");
-            _dataName = Path.Combine(path, name + ".data");
+            _indexName = Path.Join(path, name + ".index");
+            _dataName = Path.Join(path, name + ".data");
         }
 
         readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
