@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Threading;
 
@@ -12,7 +12,6 @@ namespace ClientNoSqlDB.FileSystem
 
         public DbTableStorage(string path, string name)
         {
-
 #if NET8_0_OR_GREATER
             _indexName = Path.Join(path, name + ".index");
             _dataName = Path.Join(path, name + ".data");
@@ -26,7 +25,6 @@ namespace ClientNoSqlDB.FileSystem
 
         public void Initialize()
         {
-
         }
         public void Flush()
         {
@@ -43,7 +41,6 @@ namespace ClientNoSqlDB.FileSystem
                 }
                 catch (IOException)
                 {
-
                     Thread.Sleep(100);
                 }
 
