@@ -12,8 +12,8 @@ namespace ClientNoSqlDB.FileSystem
 
         public DbTableStorage(string path, string name)
         {
-            _indexName = Path.Combine(path, name + ".index");
-            _dataName = Path.Combine(path, name + ".data");
+            _indexName = Path.Join(path, name + ".index");
+            _dataName = Path.Join(path, name + ".data");
         }
 
         readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
