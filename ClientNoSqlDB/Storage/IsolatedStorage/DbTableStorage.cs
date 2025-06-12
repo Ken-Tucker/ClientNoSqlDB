@@ -14,12 +14,16 @@ namespace ClientNoSqlDB.IsolatedStorage
         public DbTableStorage(IsolatedStorageFile storage, string path, string name)
         {
             _storage = storage;
-#if NET8_0_OR_GREATER 
-            _indexName = Path.Join(path, name + ".index");
-            _dataName = Path.Join(path, name + ".data");
+            _indexName = GetPlatformSpecificPath(path, name + ".index");
+            _dataName = GetPlatformSpecificPath(path, name + ".data");
+        }
+
+        private static string GetPlatformSpecificPath(string path, string fileName)
+        {
+#if NET8_0_OR_GREATER
+            return Path.Join(path, fileName);
 #else
-            _indexName = Path.Combine(path, name + ".index");
-            _dataName = Path.Combine(path, name + ".data");
+            return Path.Combine(path, fileName);
 #endif
         }
 
