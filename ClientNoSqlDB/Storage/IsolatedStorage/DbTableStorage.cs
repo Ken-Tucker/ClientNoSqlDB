@@ -14,8 +14,17 @@ namespace ClientNoSqlDB.IsolatedStorage
         public DbTableStorage(IsolatedStorageFile storage, string path, string name)
         {
             _storage = storage;
-            _indexName = Path.Combine(path, name + ".index");
-            _dataName = Path.Combine(path, name + ".data");
+            _indexName = GetPlatformSpecificPath(path, name + ".index");
+            _dataName = GetPlatformSpecificPath(path, name + ".data");
+        }
+
+        private static string GetPlatformSpecificPath(string path, string fileName)
+        {
+#if NET8_0_OR_GREATER
+            return Path.Join(path, fileName);
+#else
+            return Path.Combine(path, fileName);
+#endif
         }
 
         readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
