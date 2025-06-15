@@ -60,7 +60,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore -s https://www.myget.org/F/caliburn-micro-builds/api/v3/index.json -s https://api.nuget.org/v3/index.json
     - name: Build
-      run: dotnet build ClientNoSqlDB/ClientNoSqlDB.csproj --configuration Release 
+      run: dotnet build ClientNoSqlDB/ClientNoSqlDB.csproj --configuration Release -f net9.0
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 https://git.io/JvXDl
