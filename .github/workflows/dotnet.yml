@@ -45,7 +45,7 @@ jobs:
       run: dotnet workload install maui maui-android maui-ios maui-tizen maui-maccatalyst maui-windows android --source https://api.nuget.org/v3/index.json
     - name: list workloads
       run: dotnet workload list 
-    - name: Checking for external vulnerabilites
+    - name: Checking for external vulnerabilities
       run: |
         dotnet list package --vulnerable --include-transitive -s https://www.myget.org/F/caliburn-micro-builds/api/v3/index.json -s https://api.nuget.org/v3/index.json 2>&1 | tee vuln.log
         echo "Analyze dotnet list package..."
