@@ -47,7 +47,7 @@ jobs:
       run: dotnet workload list 
     - name: Checking for external vulnerabilities
       run: |
-        dotnet list package --vulnerable --include-transitive -s https://www.myget.org/F/caliburn-micro-builds/api/v3/index.json -s https://api.nuget.org/v3/index.json 2>&1 | tee vuln.log
+        dotnet list package --vulnerable --include-transitive 2>&1 | tee vuln.log
         echo "Analyze dotnet list package..."
         ! grep -q -i "has the following vulnerable packages" vuln.log
     - name: Restore dependencies
