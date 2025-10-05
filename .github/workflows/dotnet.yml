@@ -49,7 +49,10 @@ jobs:
       run: |
         dotnet list package --vulnerable --include-transitive 2>&1 | tee build.log
         echo "Analyze dotnet vulnerable nuget package command log output..."
-        grep -q -i "critical\|high\|moderate\|low" build.log; [ $? -eq 0 ] && echo "Security Vulnerabilities found in Nuget Packages on the log output" && exit 1
+        if (Select-String -Path build.log -Pattern "critical|high|moderate|low" -Quiet) {
+            Write-Host "Security Vulnerabilities found in Nuget Packages on the log output"
+            exit 1
+        }
     - name: Restore dependencies
       run: dotnet restore -s https://www.myget.org/F/caliburn-micro-builds/api/v3/index.json -s https://api.nuget.org/v3/index.json
     - name: Build
