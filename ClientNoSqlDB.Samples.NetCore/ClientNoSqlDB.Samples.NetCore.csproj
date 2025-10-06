@@ -9,4 +9,8 @@
     <ProjectReference Include="..\ClientNoSqlDB\ClientNoSqlDB.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Update="Nerdbank.GitVersioning" Version="3.8.118" />
+  </ItemGroup>
+
 </Project>
