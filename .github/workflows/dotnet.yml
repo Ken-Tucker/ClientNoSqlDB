@@ -53,7 +53,7 @@ jobs:
         $outout = dotnet list package --vulnerable --include-transitive 2>&1 | tee build.log
         echo "Analyze dotnet vulnerable nuget package command log output..."
         echo $output
-        if (Select-String $output -Pattern "critical|high|moderate|low" -Quiet) {
+        if ($output -Pattern "critical|high|moderate|low" -Quiet) {
             Write-Host "Security Vulnerabilities found in Nuget Packages on the log output"
             exit 1
         }
