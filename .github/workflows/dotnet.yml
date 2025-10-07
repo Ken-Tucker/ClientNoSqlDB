@@ -47,6 +47,16 @@ jobs:
       run: dotnet workload list 
     - name: Restore dependencies
       run: dotnet restore -s https://www.myget.org/F/caliburn-micro-builds/api/v3/index.json -s https://api.nuget.org/v3/index.json
+
+    - name: Checking Vulnerable Nuget Packages
+      run: |
+        $outout = dotnet list package --vulnerable --include-transitive 2>&1 | tee build.log
+        echo "Analyze dotnet vulnerable nuget package command log output..."
+        echo $output
+        if ($output -match "critical|high|moderate|low") {
+            Write-Host "Security Vulnerabilities found in Nuget Packages on the log output"
+            exit 1
+        }
     - name: Build
       run: dotnet build --configuration Release 
     - name: Test
