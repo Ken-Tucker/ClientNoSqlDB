@@ -4,6 +4,6 @@
 
 * Improve the documentation
 
-* Issue a pull request that fixes a bug or adds a new feature.
+* Issue a pull request that fixes a bug or adds a new feature. All pull requests must pass the CodeQl scan. 
 
 If your pull request is accepted I will add you on as a contributer
