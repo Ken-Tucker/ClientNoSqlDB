@@ -1,7 +1,7 @@
 # ClientNoSqlDB
 Client NoSql database written in a .net standard 2.0 library 
 
-It will work with .net Framework 4.6.1, Xamarin.Android, Xamarin.iOS, and .net core.  
+It will work with .net Framework 4.6.2+, .net Maui, and .net 8.0+.  
 
 
 This NoSql database is based on Lex.DB
