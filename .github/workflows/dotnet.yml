@@ -19,7 +19,7 @@ jobs:
     runs-on: windows-2025
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
       with:
         fetch-depth: 0 # avoid shallow clone so nbgv can do its work
     - name: Setup .NET
@@ -27,7 +27,7 @@ jobs:
       with:
         dotnet-version: 10.0.x
     - name: Setup Java SDK
-      uses: actions/setup-java@v4
+      uses: actions/setup-java@v5
       with:
         distribution: 'microsoft' 
         java-version: 17
@@ -67,7 +67,7 @@ jobs:
       run: dotnet nuget push ${{ vars.UPLOAD_NUGET_PATH }} --source ${{env.package_feed}} --api-key ${{secrets.PUBLISH_NUGET_PACKAGE}} --skip-duplicate      
       if: github.event_name != 'pull_request'
     - name: Upload Artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: published_nuget
         path: ClientNoSqlDB/bin/Release/*.nupkg
