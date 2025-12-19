@@ -62,14 +62,15 @@ jobs:
     - name: Run Tests with Coverage
       run: dotnet test --collect:"XPlat Code Coverage" --results-directory ./coverage
 
-    - name: Generate Coverage Report
-      uses: irongut/CodeCoverageSummary@v1.3.0
+    - name: Generate Coverage Badge
+      uses: simon-k/dotnet-code-coverage-badge@v1.0.0
       with:
-        filename: coverage/**/coverage.cobertura.xml
-        badge: true
-        fail_below_min: true
-        format: markdown
-        output: both
+        path: coverage/**/coverage.opencover.xml
+        label: Code Coverage
+        color: brightgreen
+        gist-filename: code-coverage.json
+        gist-id: ${{ secrets.GIST_ID }}
+        gist-auth-token: ${{ secrets.GIST_AUTH_TOKEN }}
     - name: Pack Nuget
       run: dotnet pack ClientNoSqlDB/ClientNoSqlDB.csproj --configuration Release 
     - name: publish Nuget Packages to GitHub
