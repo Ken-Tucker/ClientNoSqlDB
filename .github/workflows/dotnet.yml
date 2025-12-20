@@ -59,8 +59,9 @@ jobs:
         }
     - name: Build
       run: dotnet build --configuration Release 
-    - name: Test
-      run: dotnet test --configuration Release --no-build --verbosity normal
+    - name: Run Tests with Coverage
+      run: dotnet test --collect:"XPlat Code Coverage" --results-directory ./coverage
+
     - name: Pack Nuget
       run: dotnet pack ClientNoSqlDB/ClientNoSqlDB.csproj --configuration Release 
     - name: publish Nuget Packages to GitHub
@@ -71,3 +72,9 @@ jobs:
       with:
         name: published_nuget
         path: ClientNoSqlDB/bin/Release/*.nupkg
+    - name: Upload Code Coverage Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: code_coverage
+        path: coverage/**/coverage.opencover.xml
+
