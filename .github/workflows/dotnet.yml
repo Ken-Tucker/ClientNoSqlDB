@@ -71,7 +71,7 @@ jobs:
           PATH: '${{ env.HOME }}\.dotnet\tools;${{ env.PATH }}'
       run: |
           # Find all Cobertura files produced by dotnet test
-          REPORTS=$(echo TestResults/**/coverage.cobertura.xml)
+          REPORTS=$(echo ./coverage/**/coverage.cobertura.xml)
           # Create output directory
           mkdir -p coverage-report
           # Generate HTML + Markdown summary for GitHub
