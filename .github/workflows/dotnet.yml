@@ -68,7 +68,7 @@ jobs:
       # Generate HTML report and a Markdown summary for GitHub
     - name: Generate coverage report
       env:
-          PATH: $HOME/.dotnet/tools:$PATH
+          PATH: '${{ env.HOME }}\.dotnet\tools;${{ env.PATH }}'
       run: |
           # Find all Cobertura files produced by dotnet test
           REPORTS=$(echo TestResults/**/coverage.cobertura.xml)
