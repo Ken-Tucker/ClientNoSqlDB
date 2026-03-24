@@ -1,5 +1,6 @@
 ﻿using ClientNoSqlDB;
 using ClientNoSqlDB.Serialization;
+using System;
 using Xunit;
 
 namespace ClientNoSql.Tests
