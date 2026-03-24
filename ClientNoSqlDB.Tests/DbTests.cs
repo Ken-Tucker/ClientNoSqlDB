@@ -1,4 +1,4 @@
-﻿using ClientNoSqlDB;
+using ClientNoSqlDB;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,7 +8,6 @@ using Xunit;
 
 namespace ClientNoSql.Tests
 {
-
     public class AsynchronousAttribute : Attribute { }
 
     public class WorkItemTest
@@ -49,9 +48,6 @@ namespace ClientNoSql.Tests
             TestPKKey(i => i.KeyGuid, (o, v) => o.KeyGuid = v, Guid.NewGuid());
             TestPKKey(i => i.KeyGuidN, (o, v) => o.KeyGuidN = v, Guid.NewGuid());
             TestPKKey(i => i.KeyGuidN, (o, v) => o.KeyGuidN = v, null);
-
-
-
         }
 
         private void TestPKKey<T>(Expression<Func<MyDataKeys, T>> pkGetter, Action<MyDataKeys, T> pkSetter, T key)
@@ -71,7 +67,6 @@ namespace ClientNoSql.Tests
             db.Purge();
         }
 
-
         private void PurgeDb()
         {
             using (var i = Prepare())
@@ -88,20 +83,17 @@ namespace ClientNoSql.Tests
             db.Dispose();
         }
 
-
         private void OpenDb()
         {
             db = new DbInstance("My Database");
             db.Initialize();
         }
 
-
         private void OpenDbComplexPath()
         {
             db = new DbInstance(@"My Database\My Schema");
             db.Initialize();
         }
-
 
         [Fact]
         public void DoubleOpenDbComplexPath()
@@ -127,7 +119,6 @@ namespace ClientNoSql.Tests
             db = new DbInstance(@"My Database\My Schema");
 
             db.Initialize();
-
 
             Assert.Throws<InvalidOperationException>(() => db.Map<MyData>().Automap(i => i.Id));
         }
@@ -229,7 +220,6 @@ namespace ClientNoSql.Tests
             Assert.True(a.OrderBy(i => i.Id).Select(i => i.Id).SequenceEqual(b.OrderBy(i => i.Id).Select(i => i.Id)));
         }
 
-
         private void LoadData()
         {
             var localTable = db.Table<MyData>();
@@ -249,7 +239,6 @@ namespace ClientNoSql.Tests
                 var obj = table.LoadByKey(key);
 
                 Assert.Equal(newObj.Name, obj.Name);
-
             });
         }
 
@@ -288,19 +277,16 @@ namespace ClientNoSql.Tests
             });
         }
 
-
         private void Compact()
         {
             table.Compact();
         }
-
 
         private void CheckInfo()
         {
             _ = table.GetInfo();
             _ = db.GetInfo();
         }
-
 
         [Fact]
         public void RoundTripNulls()
@@ -663,7 +649,6 @@ namespace ClientNoSql.Tests
             table.Save(obj);
 
             Assert.True(table.DeleteByKey((object)obj.Id));
-
         }
 
         public void Dispose()
