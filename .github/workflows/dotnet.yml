@@ -34,7 +34,10 @@ jobs:
 
     - name: Install Microsoft SBom tool
       run: dotnet tool install --global Microsoft.Sbom.DotNetTool
-        
+  
+    - name: Install ReportGenerator tool
+      run: dotnet tool install --global dotnet-reportgenerator-globaltool
+
     - name: Install Nerdbank Git versioning
       run: dotnet tool install -g nbgv    
     - name: Set Version
@@ -62,6 +65,28 @@ jobs:
     - name: Run Tests with Coverage
       run: dotnet test --collect:"XPlat Code Coverage" --results-directory ./coverage
 
+      # Generate HTML report and a Markdown summary for GitHub
+    - name: Generate coverage report
+      env:
+          PATH: '${{ env.HOME }}\.dotnet\tools;${{ env.PATH }}'
+      run: |
+          # Find all Cobertura files produced by dotnet test
+          REPORTS=$(echo ./coverage/**/coverage.cobertura.xml)
+          # Create output directory
+          mkdir -p coverage-report
+          # Generate HTML + Markdown summary for GitHub
+          reportgenerator \
+            -reports:"$REPORTS" \
+            -targetdir:"coverage-report" \
+            -reporttypes:"Html;MarkdownSummaryGithub"
+
+      # Publish coverage HTML and raw Cobertura XML as artifacts
+    - name: Upload coverage (HTML)
+      uses: actions/upload-artifact@v4
+      with:
+          name: coverage-html
+          path: coverage-report
+
     - name: Pack Nuget
       run: dotnet pack ClientNoSqlDB/ClientNoSqlDB.csproj --configuration Release 
     - name: publish Nuget Packages to GitHub
@@ -72,9 +97,5 @@ jobs:
       with:
         name: published_nuget
         path: ClientNoSqlDB/bin/Release/*.nupkg
-    - name: Upload Code Coverage Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: code_coverage
-        path: coverage/**/coverage.opencover.xml
+
 
