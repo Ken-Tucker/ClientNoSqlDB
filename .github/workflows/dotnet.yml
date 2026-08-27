@@ -60,7 +60,7 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release 
     - name: Run Tests with Coverage
-      run: dotnet test --collect:"XPlat Code Coverage" --results-directory ./coverage
+      run: dotnet test ClientNoSqlDB.sln
 
     - name: Pack Nuget
       run: dotnet pack ClientNoSqlDB/ClientNoSqlDB.csproj --configuration Release 
