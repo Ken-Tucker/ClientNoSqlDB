@@ -54,3 +54,25 @@ Load all the items
 Delete an item
 
                     db.Delete<Person>(item);
+
+## Entity Framework Core
+
+The `ClientNoSqlDB.EntityFrameworkCore` package provides a `DbContext` adapter for EF Core 10. Derive a context, expose `DbSet` properties, and call `Initialize` after construction. The context loads its mapped entities when initialized and writes tracked additions, updates, and deletions back to ClientNoSqlDB when `SaveChanges` is called.
+
+```csharp
+using ClientNoSqlDB.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+
+public class PeopleContext(string path) : ClientNoSqlDbContext(path)
+{
+    public DbSet<Person> People => Set<Person>();
+}
+
+using var db = new PeopleContext("people");
+db.Initialize();
+db.People.Add(new Person { Id = 1, FirstName = "Ada" });
+db.SaveChanges();
+var people = db.People.Where(person => person.FirstName == "Ada").ToList();
+```
+
+This adapter uses EF Core's in-memory query provider over the data loaded during `Initialize`; queries are evaluated in memory and see the context's snapshot. Entity types must have one primary key and a public parameterless constructor. Scalar mapped members must be public, read-write properties or mutable public fields; owned and inherited entity types are not supported.
