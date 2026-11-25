@@ -1,4 +1,6 @@
 ﻿using Caliburn.Micro;
+using ClientNoSqlDB.Samples.Maui.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace ClientNoSqlDB.Samples.Maui.Services
 {
@@ -7,24 +9,24 @@ namespace ClientNoSqlDB.Samples.Maui.Services
         public BindableCollection<Person> GetPeopleFromDB()
         {
             BindableCollection<Person> people;
-            using (var db = new ClientNoSqlDB.DbInstance("testing"))
+            using (var db = new PersonDBContext("testing"))
             {
-                db.Map<Person>().Automap(i => i.Id);
                 db.Initialize();
-                people = ConvertToBindableCollection(db.LoadAll<Person>().ToList());
+                people = ConvertToBindableCollection(db.People.ToList());
                 if (people != null && !people.Any())
                 {
-                    db.Save(new Person() { FirstName = "Ken", Id = 1, LastName = "Tucker" },
+                    db.People.AddRange(new Person() { FirstName = "Ken", Id = 1, LastName = "Tucker" },
                     new Person() { FirstName = "Tony", Id = 2, LastName = "Stark" },
                     new Person() { FirstName = "John", Id = 3, LastName = "Papa" },
                     new Person() { FirstName = "Delete", Id = 4, LastName = "Me" });
                 }
-                var item = db.LoadByKey<Person>(4);
+                db.SaveChanges();
+                var item = db.People.FirstOrDefault(person=>person.Id==4);
                 if (item != null)
                 {
-                    db.Delete<Person>(item);
+                    db.People.Remove(item);
                 }
-                people = ConvertToBindableCollection(db.LoadAll<Person>().ToList());
+                people = ConvertToBindableCollection(db.People.ToList());
                 return people;
             }
         }
