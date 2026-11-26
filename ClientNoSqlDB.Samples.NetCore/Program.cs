@@ -28,7 +28,7 @@ namespace ClientNoSqlDB.Samples.NetCore
                     db.People.Remove(item);
                 }
 
-                foreach (var p in list)
+                foreach (var p in list  ?? Enumerable.Empty<Person>())
                 {
                     Console.WriteLine($"{p.FirstName} {p.LastName}");
                 }
